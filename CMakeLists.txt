@@ -26,6 +26,8 @@ file(GLOB_RECURSE HEADER_FILES
 ############ Define the include DIRs
 include_directories(
 	"${CMAKE_SOURCE_DIR}/Core/src"
+	"${CMAKE_SOURCE_DIR}/Core/src/Modules"
+	"${CMAKE_SOURCE_DIR}/Core/src/Modules/Window"
 )
 
 ############ Add the executable
