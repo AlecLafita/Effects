@@ -1,5 +1,6 @@
 #include "EffectsEngine.h"
 #include "WindowModule.h"
+#include "RenderModule.h"
 
 #include <memory>
 
@@ -7,7 +8,9 @@ int main(int argc, char** argv)
 {
     effectsEngine::EffectsEngine Engine;
     effectsEngine::WindowModule Window;
+    effectsEngine::RenderModule Render;
     Engine.AddModule(&Window);
+    Engine.AddModule(&Render);
 
     if (Engine.Init())
     {

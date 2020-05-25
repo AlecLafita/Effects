@@ -37,7 +37,7 @@ namespace effectsEngine
 			return false;
 		}
 
-		glViewport(0, 0, 800, 600);
+		mWindowCallbacksManager.Resize(800, 600);
 
 		glfwSetWindowUserPointer(currentWindow, &mWindowCallbacksManager);
 
@@ -57,6 +57,12 @@ namespace effectsEngine
 		GLFWwindow* currentWindow = glfwGetCurrentContext();
 		if (!glfwWindowShouldClose(currentWindow))
 		{
+			//TODO move to callback manager
+			if (glfwGetKey(currentWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+			{
+				glfwSetWindowShouldClose(currentWindow, true);
+			}
+
 			glfwSwapBuffers(currentWindow);
 			glfwPollEvents();
 
