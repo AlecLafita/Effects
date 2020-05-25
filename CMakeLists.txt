@@ -20,7 +20,7 @@ file(GLOB_RECURSE SOURCE_FILES
 	${CMAKE_SOURCE_DIR}/Core/src/*.cpp)
 	
 file(GLOB_RECURSE HEADER_FILES 
-	${CMAKE_SOURCE_DIR}/Core/src/*.hpp)
+	${CMAKE_SOURCE_DIR}/Core/src/*.h)
 
 
 ############ Define the include DIRs

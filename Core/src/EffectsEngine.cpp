@@ -28,6 +28,8 @@ namespace effectsEngine
 				return false;
 			}
 		}
+		
+		return true;
 	}
 
 	bool EffectsEngine::Update(float aDeltaTime)
@@ -39,6 +41,8 @@ namespace effectsEngine
 				return false;
 			}
 		}
+		
+		return true;
 	}
 
 	void EffectsEngine::Clean()

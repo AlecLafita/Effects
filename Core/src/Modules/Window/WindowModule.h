@@ -2,8 +2,7 @@
 #define EFFECTS_ENGINE_WINDOW_MODULE
 
 #include "IModule.h"
-
-struct GLFWwindow;
+#include "WindowCallbacksManager.h"
 
 namespace effectsEngine
 {
@@ -41,16 +40,8 @@ namespace effectsEngine
 		 */
 		void Clean() override;
 
-		/**
-		 * Resizes the window.
-		 * \param aWindow Window instance.
-		 * \param aWidth Width to resize.
-		 * \param aHeight Height to resize.
-		 */
-		static void Resize(GLFWwindow* aWindow, int aWidth, int aHeight); //TODO to very nice being static
-
 	private:
-		GLFWwindow*			mWindow; ///< Window instance.
+		WindowCallbacksManager			mWindowCallbacksManager; ///< Instance to manage library window callbacks.
 	};
 }
 
