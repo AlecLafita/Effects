@@ -5,6 +5,8 @@
 
 namespace effectsEngine
 {
+	class ShaderProgram;
+
 	/**
 	 * Class for the render module.
 	 */
@@ -38,6 +40,9 @@ namespace effectsEngine
 		 * Cleans the module.
 		 */
 		void Clean() override;
+
+	private:
+		ShaderProgram* mShaderProgram;
 	};
 }
 

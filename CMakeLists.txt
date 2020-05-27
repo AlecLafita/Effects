@@ -28,6 +28,7 @@ include_directories(
 	"${CMAKE_SOURCE_DIR}/Core/src"
 	"${CMAKE_SOURCE_DIR}/Core/src/Modules"
 	"${CMAKE_SOURCE_DIR}/Core/src/Modules/Render"
+	"${CMAKE_SOURCE_DIR}/Core/src/Modules/Render/Shader"
 	"${CMAKE_SOURCE_DIR}/Core/src/Modules/Window"
 )
 
