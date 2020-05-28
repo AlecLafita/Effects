@@ -34,8 +34,7 @@ namespace effectsEngine
 		void Compile();
 
 	private:
-		//TODO check id type, same for shader program
-		unsigned int			mId;		///< Id of the shader.
+		unsigned int			mId;	///< Id of the shader.
 		const char*			mSource;	///< Source of the shader.
 	};
 }

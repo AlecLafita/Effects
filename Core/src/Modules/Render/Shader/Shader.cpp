@@ -5,7 +5,20 @@ namespace effectsEngine
 	Shader::Shader(eShaderType aShaderType, const char* aSource) : 
 		mSource(aSource)
 	{
-		mId = glCreateShader(static_cast<GLenum>(aShaderType));
+		GLenum shaderType;
+		switch (aShaderType)
+		{
+			case eShaderType::Vertex:
+				shaderType = GL_VERTEX_SHADER;
+			break;
+			case eShaderType::Fragment:
+				shaderType = GL_FRAGMENT_SHADER;
+			break;
+			default:
+				//TODO exception
+			break;
+		}
+		mId = glCreateShader(shaderType);
 	}
 
 	Shader::~Shader()

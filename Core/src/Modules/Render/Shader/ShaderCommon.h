@@ -9,7 +9,7 @@ namespace effectsEngine
 	/**
 	 * Enumeration for the different shader types.
 	 */
-	enum class eShaderType : GLenum
+	enum class eShaderType
 	{
 		Vertex,
 		Fragment

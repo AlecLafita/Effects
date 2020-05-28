@@ -43,6 +43,10 @@ namespace effectsEngine
 
 	private:
 		ShaderProgram* mShaderProgram;
+		unsigned int mVAO;
+		unsigned int mVBO;
+		unsigned int mEBO;
+
 	};
 }
 
