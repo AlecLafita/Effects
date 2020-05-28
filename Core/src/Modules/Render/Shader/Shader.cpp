@@ -1,4 +1,6 @@
 #include "Shader.h"
+#include <vector>
+#include <iostream>
 
 namespace effectsEngine
 {
@@ -31,10 +33,26 @@ namespace effectsEngine
 		return mId;
 	}
 
-	void Shader::Compile()
+	bool Shader::Compile()
 	{
 		glShaderSource(mId, 1, &mSource, nullptr); //TODO includes, etc
 		glCompileShader(mId);
-		//TODO compilations checks
+		
+		GLint isCompiled = 0;
+		glGetShaderiv(mId, GL_COMPILE_STATUS, &isCompiled);
+		if (isCompiled == GL_FALSE)
+		{
+			GLint maxLength = 0;
+			glGetShaderiv(mId, GL_INFO_LOG_LENGTH, &maxLength);
+
+			std::string infoLog;
+			infoLog.resize(maxLength);
+			glGetShaderInfoLog(mId, maxLength, &maxLength, &infoLog[0]);
+			std::cout << infoLog << std::endl;
+
+			glDeleteShader(mId);
+			return false;
+		}
+		return true;
 	}
 }

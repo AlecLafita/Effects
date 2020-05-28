@@ -34,8 +34,9 @@ namespace effectsEngine
 
 		/**
 		 * Links the shader program.
+		 * \return True if everything ok.
 		 */
-		void Link();
+		bool Link();
 
 	private:
 		unsigned int			mId;	///< Id of the shader program.

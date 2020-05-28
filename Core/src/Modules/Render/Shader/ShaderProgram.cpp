@@ -1,6 +1,8 @@
 #include "ShaderProgram.h"
 #include "Shader.h"
 #include "ShaderCommon.h"
+#include <vector>
+#include <iostream>
 
 namespace effectsEngine
 {
@@ -23,9 +25,26 @@ namespace effectsEngine
 		glAttachShader(mId, aShader.GetId());
 	}
 
-	void ShaderProgram::Link()
+	bool ShaderProgram::Link()
 	{
 		glLinkProgram(mId);
-		//TODO check errors
+		
+		GLint isLinked = 0;
+		glGetProgramiv(mId, GL_LINK_STATUS, &isLinked);
+		if (isLinked == GL_FALSE)
+		{
+			GLint maxLength = 0;
+			glGetProgramiv(mId, GL_INFO_LOG_LENGTH, &maxLength);
+
+			std::string infoLog;
+			infoLog.resize(maxLength);
+			glGetProgramInfoLog(mId, maxLength, &maxLength, &infoLog[0]);
+			std::cout << infoLog << std::endl;
+
+			glDeleteProgram(mId);
+
+			return false;
+		}
+		return true;
 	}
 }

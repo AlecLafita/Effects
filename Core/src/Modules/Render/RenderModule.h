@@ -6,6 +6,7 @@
 namespace effectsEngine
 {
 	class ShaderProgram;
+	class Mesh;
 
 	/**
 	 * Class for the render module.
@@ -43,9 +44,8 @@ namespace effectsEngine
 
 	private:
 		ShaderProgram* mShaderProgram;
-		unsigned int mVAO;
-		unsigned int mVBO;
-		unsigned int mEBO;
+		Mesh* mMesh;
+
 
 	};
 }

@@ -30,8 +30,9 @@ namespace effectsEngine
 		
 		/**
 		 * Compiles the shader.
+		 * \return True if everything ok.
 		 */
-		void Compile();
+		bool Compile();
 
 	private:
 		unsigned int			mId;	///< Id of the shader.
