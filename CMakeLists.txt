@@ -13,7 +13,9 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/Core/ThirdParty/glfw")
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/Core/ThirdParty/glad")
 
-set(LIBS glfw opengl32 glad)
+add_subdirectory("${CMAKE_SOURCE_DIR}/Core/ThirdParty/glm")
+
+set(LIBS glfw opengl32 glad glm)
 
 ############ Project src
 file(GLOB_RECURSE SOURCE_FILES 

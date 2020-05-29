@@ -35,9 +35,11 @@ namespace effectsEngine
 
 		const char* FSSource = "#version 330 core\n"
 			"out vec4 FragColor;\n"
+			"uniform vec4 uniformColor;\n"
 			"void main()\n"
 			"{\n"
-			"   FragColor = vec4(0.0f, 0.5f, 1.0f, 1.0f);\n"
+			"   //FragColor = vec4(0.0f, 0.5f, 1.0f, 1.0f);\n"
+			"   FragColor = uniformColor;\n"
 			"}\0";
 		Shader FS(eShaderType::Fragment, FSSource);
 		ReturnValue &= FS.Compile();
@@ -59,6 +61,10 @@ namespace effectsEngine
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		glUseProgram(mShaderProgram->GetId());
+
+		float greenValue = sin(glfwGetTime()) * 0.5f + 0.5f;
+		mShaderProgram->SetVec4f("uniformColor", glm::vec4(0.0f, greenValue, 0.0f, 1.0f));
+
 		mMesh->Update(aDeltaTime);
 
 		return true;

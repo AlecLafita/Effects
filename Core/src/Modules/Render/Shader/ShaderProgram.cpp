@@ -47,4 +47,15 @@ namespace effectsEngine
 		}
 		return true;
 	}
+
+	void ShaderProgram::SetFloat(const std::string& aName, float aValue)
+	{
+		glUniform1f(glGetUniformLocation(mId, aName.c_str()), aValue);
+	}
+
+	void ShaderProgram::SetVec4f(const std::string& aName, const glm::vec4& aValue)
+	{
+		glUniform4f(glGetUniformLocation(mId, aName.c_str()), aValue.x, aValue.y, aValue.z, aValue.w);
+	}
+
 }

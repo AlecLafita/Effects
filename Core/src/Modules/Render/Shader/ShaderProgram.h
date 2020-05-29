@@ -1,6 +1,9 @@
 #ifndef EFFECTS_ENGINE_SHADER_PROGRAM
 #define EFFECTS_ENGINE_SHADER_PROGRAM
 
+#include <string>
+#include <glm/glm.hpp>
+
 namespace effectsEngine
 {
 	class Shader;
@@ -37,6 +40,12 @@ namespace effectsEngine
 		 * \return True if everything ok.
 		 */
 		bool Link();
+
+		/** Uniforms setting TODO uniform buffer object */
+
+		void SetFloat(const std::string& aName, float aValue);
+
+		void SetVec4f(const std::string& aName, const glm::vec4& aValue);
 
 	private:
 		unsigned int			mId;	///< Id of the shader program.
