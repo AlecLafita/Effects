@@ -2,6 +2,7 @@
 #define EFFECTS_ENGINE_SHADER
 
 #include "ShaderCommon.h"
+#include <string>
 
 namespace effectsEngine
 {
@@ -14,9 +15,9 @@ namespace effectsEngine
 		/**
 		 * Constructor.
 		 * \param aShaderType Type of the shader being created.
-		 * \param aSource Source of the shader to generate.
+		 * \param aSourcePath Path to the source of the shader to generate.
 		 */
-		Shader(eShaderType aShaderType, const char* aSource); //TODO change source with path
+		Shader(eShaderType aShaderType, const std::string&& aSourcePath);
 
 		/**
 		 * Destructor.
@@ -35,8 +36,8 @@ namespace effectsEngine
 		bool Compile();
 
 	private:
-		unsigned int			mId;	///< Id of the shader.
-		const char*			mSource;	///< Source of the shader.
+		unsigned int			mId;			///< Id of the shader.
+		const std::string		mSourcePath;	///< Path to the source of the shader.
 	};
 }
 

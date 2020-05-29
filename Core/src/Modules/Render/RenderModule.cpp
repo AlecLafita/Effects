@@ -9,6 +9,11 @@
 
 namespace effectsEngine
 {
+	//TODO auto relative path from project root
+	const std::string RelativePath = "C:\\Users\\Alec\\Documents\\Effects\\";
+	const std::string VSPath = "Core\\Resources\\default.vert";
+	const std::string FSPath = "Core\\Resources\\default.frag";
+
 	RenderModule::RenderModule() : 
 		mShaderProgram(nullptr),
 		mMesh(nullptr)
@@ -24,24 +29,10 @@ namespace effectsEngine
 	{
 		bool ReturnValue = true;
 
-		const char* VSSource = "#version 330 core\n"
-			"layout (location = 0) in vec3 aPos;\n"
-			"void main()\n"
-			"{\n"
-			"   gl_Position = vec4(aPos, 1.0);\n"
-			"}\0";
-		Shader VS(eShaderType::Vertex, VSSource);
+		Shader VS(eShaderType::Vertex, RelativePath + VSPath);
 		ReturnValue &= VS.Compile();
-
-		const char* FSSource = "#version 330 core\n"
-			"out vec4 FragColor;\n"
-			"uniform vec4 uniformColor;\n"
-			"void main()\n"
-			"{\n"
-			"   //FragColor = vec4(0.0f, 0.5f, 1.0f, 1.0f);\n"
-			"   FragColor = uniformColor;\n"
-			"}\0";
-		Shader FS(eShaderType::Fragment, FSSource);
+		
+		Shader FS(eShaderType::Fragment, RelativePath + FSPath);
 		ReturnValue &= FS.Compile();
 
 		mShaderProgram = new ShaderProgram();
@@ -60,12 +51,16 @@ namespace effectsEngine
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glUseProgram(mShaderProgram->GetId());
+		mShaderProgram->Activate(true);
 
 		float greenValue = sin(glfwGetTime()) * 0.5f + 0.5f;
 		mShaderProgram->SetVec4f("uniformColor", glm::vec4(0.0f, greenValue, 0.0f, 1.0f));
 
 		mMesh->Update(aDeltaTime);
+
+		mShaderProgram->Activate(false);
+
+		//TODO check opengl errors
 
 		return true;
 	}

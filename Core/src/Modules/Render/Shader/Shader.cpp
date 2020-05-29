@@ -1,11 +1,15 @@
 #include "Shader.h"
 #include <vector>
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <Windows.h>
 
 namespace effectsEngine
 {
-	Shader::Shader(eShaderType aShaderType, const char* aSource) : 
-		mSource(aSource)
+	Shader::Shader(eShaderType aShaderType, const std::string&& aSourcePath) : 
+		mId(0U),
+		mSourcePath(aSourcePath)
 	{
 		GLenum shaderType;
 		switch (aShaderType)
@@ -35,7 +39,27 @@ namespace effectsEngine
 
 	bool Shader::Compile()
 	{
-		glShaderSource(mId, 1, &mSource, nullptr); //TODO includes, etc
+		std::string shaderCode;
+		std::ifstream shaderFile;
+		shaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+		try
+		{
+			shaderFile.open(mSourcePath);
+			std::stringstream shaderStream;
+			shaderStream << shaderFile.rdbuf();
+			shaderFile.close();
+			shaderCode = shaderStream.str();
+
+		}
+		catch (std::ifstream::failure e)
+		{
+			//TODO throw exception
+			std::cout <<  "Error couldn't read shader " << mSourcePath << " file: " << e.what() << std::endl;
+			return false;
+		}
+
+		const char* shaderCodeLValue= shaderCode.c_str();
+		glShaderSource(mId, 1, &shaderCodeLValue, nullptr); //TODO includes, etc
 		glCompileShader(mId);
 		
 		GLint isCompiled = 0;

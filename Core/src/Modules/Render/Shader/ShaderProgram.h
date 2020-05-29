@@ -41,6 +41,12 @@ namespace effectsEngine
 		 */
 		bool Link();
 
+		/**
+		 * Activates/Desactivates the shader program. Must be called before draw.
+		 * \param aActivate True for activate it, false otherwise
+		 */
+		void Activate(bool aActivate);
+
 		/** Uniforms setting TODO uniform buffer object */
 
 		void SetFloat(const std::string& aName, float aValue);

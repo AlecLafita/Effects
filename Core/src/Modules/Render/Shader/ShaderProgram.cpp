@@ -48,6 +48,11 @@ namespace effectsEngine
 		return true;
 	}
 
+	void ShaderProgram::Activate(bool aActivate)
+	{
+		glUseProgram(aActivate ? mId : 0U);
+	}
+
 	void ShaderProgram::SetFloat(const std::string& aName, float aValue)
 	{
 		glUniform1f(glGetUniformLocation(mId, aName.c_str()), aValue);
