@@ -22,10 +22,10 @@ namespace effectsEngine
 	{
 		//TODO organize vertex properties
 		float vertices[] = {
-			 0.5f,  0.5f, 0.0f,		1.0f, 0.0f, 0.0f, // top right
-			 0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f,// bottom right
-			-0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f, // bottom left
-			-0.5f,  0.5f, 0.0f,		1.0f, 0.0f, 1.0f// top left 
+			 0.5f,  0.5f, 0.0f,		1.0f, 0.0f, 0.0f,	1.0f, 1.0f,// top right
+			 0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f,	1.0f, 0.0f,// bottom right
+			-0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f,	0.0f, 0.0f,// bottom left
+			-0.5f,  0.5f, 0.0f,		1.0f, 0.0f, 1.0f,	0.0f, 1.0f// top left 
 		};
 		unsigned int indices[] = {
 			0, 1, 3,   // first triangle
@@ -45,10 +45,13 @@ namespace effectsEngine
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 		glEnableVertexAttribArray(0U);
-		glVertexAttribPointer(0U, 3U, GL_FLOAT, GL_FALSE, 6U * sizeof(float), (void*)0U);
+		glVertexAttribPointer(0U, 3U, GL_FLOAT, GL_FALSE, 8U * sizeof(float), (void*)0U);
 
 		glEnableVertexAttribArray(1U);
-		glVertexAttribPointer(1U, 3U, GL_FLOAT, GL_FALSE, 6U * sizeof(float), (void*)(3U * sizeof(float)));
+		glVertexAttribPointer(1U, 3U, GL_FLOAT, GL_FALSE, 8U * sizeof(float), (void*)(3U * sizeof(float)));
+		
+		glEnableVertexAttribArray(2U);
+		glVertexAttribPointer(2U, 2U, GL_FLOAT, GL_FALSE, 8U * sizeof(float), (void*)(6U * sizeof(float)));
 
 		glBindVertexArray(0U);
 		glBindBuffer(GL_ARRAY_BUFFER, 0U);

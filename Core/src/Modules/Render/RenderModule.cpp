@@ -6,7 +6,7 @@
 #include "ShaderCommon.h"
 #include "ShaderProgram.h"
 #include "Mesh.h"
-#include "Image.h"
+#include "Texture.h"
 
 namespace effectsEngine
 {
@@ -18,7 +18,8 @@ namespace effectsEngine
 
 	RenderModule::RenderModule() : 
 		mShaderProgram(nullptr),
-		mMesh(nullptr)
+		mMesh(nullptr),
+		mTexture(nullptr)
 	{
 	}
 
@@ -45,8 +46,10 @@ namespace effectsEngine
 		mMesh = new Mesh();
 		mMesh->Init();
 
-		Image TestImage;
-		TestImage.Load(RelativePath + TexturePath);
+		mTexture = new Texture(RelativePath + TexturePath);
+		mShaderProgram->Activate(true);
+		mShaderProgram->SetInt("uniformTexture1", 0U);
+		mShaderProgram->Activate(false);
 
 		return ReturnValue;
 	}
@@ -56,8 +59,9 @@ namespace effectsEngine
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		mShaderProgram->Activate(true);
+		mTexture->Use();
 
+		mShaderProgram->Activate(true);
 		float greenValue = sin(glfwGetTime()) * 0.5f + 0.5f;
 		mShaderProgram->SetVec4f("uniformColor", glm::vec4(0.0f, greenValue, 0.0f, 1.0f));
 

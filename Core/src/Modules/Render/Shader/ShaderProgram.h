@@ -49,6 +49,8 @@ namespace effectsEngine
 
 		/** Uniforms setting TODO uniform buffer object */
 
+		void SetInt(const std::string& aName, int aValue);
+
 		void SetFloat(const std::string& aName, float aValue);
 
 		void SetVec4f(const std::string& aName, const glm::vec4& aValue);

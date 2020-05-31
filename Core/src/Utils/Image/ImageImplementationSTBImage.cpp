@@ -1,6 +1,7 @@
 #include "ImageImplementationSTBImage.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
+#include <iostream>
 
 namespace effectsEngine
 {
@@ -14,11 +15,18 @@ namespace effectsEngine
 
 	ImageImplementationSTBImage::~ImageImplementationSTBImage()
 	{
+		stbi_image_free(mData);
 	}
 
 	void ImageImplementationSTBImage::Load(const std::string&& aPath)
 	{
+		stbi_set_flip_vertically_on_load(true);
 		mData = stbi_load(aPath.c_str(), &mWidth, &mHeight, &mChannelsNumber, 0);
+		if (mData == nullptr)
+		{
+			std::cout << "Image could not be loaded" << std::endl;
+			//TODO throw exception
+		}
 	}
 	unsigned char* ImageImplementationSTBImage::GetData() const
 	{

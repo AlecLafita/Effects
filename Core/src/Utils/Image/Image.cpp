@@ -1,5 +1,4 @@
 #include "Image.h"
-
 #include "ImageImplementationSTBImage.h"
 
 namespace effectsEngine
@@ -13,7 +12,7 @@ namespace effectsEngine
 	{
 	}
 
-	void Image::Load(const std::string&& aPath)
+	void Image::Load(std::string&& aPath)
 	{
 		mImageImplementation->Load(std::move(aPath));
 	}
