@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(Effects)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 ############ Third party
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/Core/ThirdParty")
@@ -14,6 +16,9 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/Core/ThirdParty/glfw")
 add_subdirectory("${CMAKE_SOURCE_DIR}/Core/ThirdParty/glad")
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/Core/ThirdParty/glm")
+
+include_directories("${CMAKE_SOURCE_DIR}/Core/ThirdParty/stb_image")
+link_directories("${CMAKE_SOURCE_DIR}/Core/ThirdParty/stb_image")
 
 set(LIBS glfw opengl32 glad glm)
 
@@ -32,6 +37,7 @@ include_directories(
 	"${CMAKE_SOURCE_DIR}/Core/src/Modules/Render/Mesh"
 	"${CMAKE_SOURCE_DIR}/Core/src/Modules/Render/Shader"
 	"${CMAKE_SOURCE_DIR}/Core/src/Modules/Window"
+	"${CMAKE_SOURCE_DIR}/Core/src/Utils/Image"
 )
 
 ############ Add the executable

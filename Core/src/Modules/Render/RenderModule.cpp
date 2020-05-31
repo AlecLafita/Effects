@@ -6,6 +6,7 @@
 #include "ShaderCommon.h"
 #include "ShaderProgram.h"
 #include "Mesh.h"
+#include "Image.h"
 
 namespace effectsEngine
 {
@@ -13,6 +14,7 @@ namespace effectsEngine
 	const std::string RelativePath = "C:\\Users\\Alec\\Documents\\Effects\\";
 	const std::string VSPath = "Core\\Resources\\default.vert";
 	const std::string FSPath = "Core\\Resources\\default.frag";
+	const std::string TexturePath = "Core\\Resources\\container.jpg";
 
 	RenderModule::RenderModule() : 
 		mShaderProgram(nullptr),
@@ -42,6 +44,9 @@ namespace effectsEngine
 
 		mMesh = new Mesh();
 		mMesh->Init();
+
+		Image TestImage;
+		TestImage.Load(RelativePath + TexturePath);
 
 		return ReturnValue;
 	}
