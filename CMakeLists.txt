@@ -30,6 +30,8 @@ file(GLOB_RECURSE HEADER_FILES
 	${CMAKE_SOURCE_DIR}/Core/src/*.h)
 
 ############ Define the include DIRs
+configure_file(${CMAKE_SOURCE_DIR}/Core/src/Utils/Dirs.h.in ${CMAKE_SOURCE_DIR}/Core/src/Utils/Dirs.h)
+
 include_directories(
 	"${CMAKE_SOURCE_DIR}/Core/src"
 	"${CMAKE_SOURCE_DIR}/Core/src/Modules"
@@ -38,6 +40,7 @@ include_directories(
 	"${CMAKE_SOURCE_DIR}/Core/src/Modules/Render/Shader"
 	"${CMAKE_SOURCE_DIR}/Core/src/Modules/Render/Texture"
 	"${CMAKE_SOURCE_DIR}/Core/src/Modules/Window"
+	"${CMAKE_SOURCE_DIR}/Core/src/Utils"
 	"${CMAKE_SOURCE_DIR}/Core/src/Utils/Image"
 )
 

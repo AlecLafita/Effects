@@ -7,14 +7,13 @@
 #include "ShaderProgram.h"
 #include "Mesh.h"
 #include "Texture.h"
+#include "Dirs.h"
 
 namespace effectsEngine
 {
-	//TODO auto relative path from project root
-	const std::string RelativePath = "C:\\Users\\Alec\\Documents\\Effects\\";
-	const std::string VSPath = "Core\\Resources\\default.vert";
-	const std::string FSPath = "Core\\Resources\\default.frag";
-	const std::string TexturePath = "Core\\Resources\\container.jpg";
+	const std::string VSPath = "default.vert";
+	const std::string FSPath = "default.frag";
+	const std::string TexturePath = "container.jpg";
 
 	RenderModule::RenderModule() : 
 		mShaderProgram(nullptr),
@@ -32,10 +31,10 @@ namespace effectsEngine
 	{
 		bool ReturnValue = true;
 
-		Shader VS(eShaderType::Vertex, RelativePath + VSPath);
+		Shader VS(eShaderType::Vertex, effectsEngine::utils::CORE_RESOURCES_PATH + VSPath);
 		ReturnValue &= VS.Compile();
 		
-		Shader FS(eShaderType::Fragment, RelativePath + FSPath);
+		Shader FS(eShaderType::Fragment, effectsEngine::utils::CORE_RESOURCES_PATH + FSPath);
 		ReturnValue &= FS.Compile();
 
 		mShaderProgram = new ShaderProgram();
@@ -46,7 +45,7 @@ namespace effectsEngine
 		mMesh = new Mesh();
 		mMesh->Init();
 
-		mTexture = new Texture(RelativePath + TexturePath);
+		mTexture = new Texture(effectsEngine::utils::CORE_RESOURCES_PATH + TexturePath);
 		mShaderProgram->Activate(true);
 		mShaderProgram->SetInt("uniformTexture1", 0U);
 		mShaderProgram->Activate(false);

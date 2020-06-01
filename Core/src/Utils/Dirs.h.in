@@ -1,0 +1,13 @@
+#ifndef EFFECTS_ENGINE_UTILS_DIRS
+#define EFFECTS_ENGINE_UTILS_DIRS
+
+namespace effectsEngine
+{
+	namespace utils
+	{
+		constexpr auto ROOT_PATH = "@CMAKE_SOURCE_DIR@/";
+		constexpr auto CORE_RESOURCES_PATH = "@CMAKE_SOURCE_DIR@/Core/Resources/";
+	}
+}
+
+#endif
