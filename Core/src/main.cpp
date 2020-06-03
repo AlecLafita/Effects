@@ -1,16 +1,21 @@
 #include "EffectsEngine.h"
 #include "WindowModule.h"
 #include "RenderModule.h"
-
-#include <memory>
+#include "CameraModule.h"
 
 int main(int argc, char** argv)
 {
     effectsEngine::EffectsEngine Engine;
+    
     effectsEngine::WindowModule Window;
-    effectsEngine::RenderModule Render;
     Engine.AddModule(&Window);
+    
+    effectsEngine::RenderModule Render;
     Engine.AddModule(&Render);
+    
+    effectsEngine::CameraModule Camera;
+    Engine.AddModule(&Camera);
+
 
     if (Engine.Init())
     {
