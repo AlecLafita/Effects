@@ -1,7 +1,5 @@
 #include "RenderModule.h"
-#include <iostream>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "RenderOptions.h"
 #include "Shader.h"
 #include "ShaderCommon.h"
 #include "ShaderProgram.h"
@@ -50,13 +48,14 @@ namespace effectsEngine
 		mShaderProgram->SetInt("uniformTexture1", 0U);
 		mShaderProgram->Activate(false);
 
+		RenderOptions::GetInstance().ActivateDepthBuffer(false);
+
 		return ReturnValue;
 	}
 
 	bool RenderModule::Update(float aDeltaTime)
 	{
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		RenderOptions::GetInstance().Clear();
 
 		mTexture->Use();
 

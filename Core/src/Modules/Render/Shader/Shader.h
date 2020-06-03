@@ -17,7 +17,7 @@ namespace effectsEngine
 		 * \param aShaderType Type of the shader being created.
 		 * \param aSourcePath Path to the source of the shader to generate.
 		 */
-		Shader(eShaderType aShaderType, const std::string&& aSourcePath);
+		Shader(eShaderType aShaderType, std::string&& aSourcePath);
 
 		/**
 		 * Destructor.

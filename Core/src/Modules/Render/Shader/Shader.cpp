@@ -7,7 +7,7 @@
 
 namespace effectsEngine
 {
-	Shader::Shader(eShaderType aShaderType, const std::string&& aSourcePath) : 
+	Shader::Shader(eShaderType aShaderType, std::string&& aSourcePath) : 
 		mId(0U),
 		mSourcePath(aSourcePath)
 	{
