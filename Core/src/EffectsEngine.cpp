@@ -4,7 +4,7 @@
 namespace effectsEngine
 {
 	EffectsEngine::EffectsEngine() : 
-		mModules()
+		mModulesManager()
 	{
 
 	}
@@ -14,16 +14,16 @@ namespace effectsEngine
 
 	}
 
-	void EffectsEngine::AddModule(IModule* aModule)
+	void EffectsEngine::AddModule(eModule aModule)
 	{
-		mModules.push_back(aModule);
+		mModulesManager.AddModule(aModule);
 	}
 
 	bool EffectsEngine::Init()
 	{
-		for (IModule* currentModule : mModules)
+		for (const auto& currentModuleIterator : mModulesManager.GetModules())
 		{
-			if (!currentModule->Init())
+			if (!currentModuleIterator.second->Init())
 			{
 				return false;
 			}
@@ -34,9 +34,9 @@ namespace effectsEngine
 
 	bool EffectsEngine::Update(float aDeltaTime)
 	{
-		for (IModule* currentModule : mModules)
+		for (const auto& currentModuleIterator : mModulesManager.GetModules())
 		{
-			if (!currentModule->Update(aDeltaTime))
+			if (!currentModuleIterator.second->Update(aDeltaTime))
 			{
 				return false;
 			}
@@ -47,9 +47,9 @@ namespace effectsEngine
 
 	void EffectsEngine::Clean()
 	{
-		for (IModule* currentModule : mModules)
+		for (const auto& currentModuleIterator : mModulesManager.GetModules())
 		{
-			currentModule->Clean();
+			currentModuleIterator.second->Clean();
 		}
 	}
 }

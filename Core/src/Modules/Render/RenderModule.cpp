@@ -6,6 +6,10 @@
 #include "Mesh.h"
 #include "Texture.h"
 #include "Dirs.h"
+#include "ModulesManager.h"
+#include "CameraModule.h"
+#include "Camera.h"
+#include <iostream>
 
 namespace effectsEngine
 {
@@ -55,6 +59,10 @@ namespace effectsEngine
 
 	bool RenderModule::Update(float aDeltaTime)
 	{
+		CameraModule& cameraModule = ModulesManager::GetModule<CameraModule>(eModule::Camera);
+		const glm::vec3& position = cameraModule.GetCamera().GetPosition();
+		std::cout << "Camera position " << position.x << " " << position.y << " " << position.z << std::endl;
+
 		RenderOptions::GetInstance().Clear();
 
 		mTexture->Use();

@@ -2,6 +2,8 @@
 #define EFFECT_ENGINE_EFFECTS_ENGINE
 
 #include <vector>
+#include "ModulesCommon.h"
+#include "ModulesManager.h"
 
 namespace effectsEngine
 {
@@ -25,9 +27,9 @@ namespace effectsEngine
 
 		/**
 		 * Adds a module to the engine.
-		 * \param aModule Module to add.
+		 * \param aModule Identifier of the module to add.
 		 */
-		void AddModule(IModule* aModule);
+		void AddModule(eModule aModule);
 
 		/**
 		 * Initializes the engine.
@@ -48,7 +50,7 @@ namespace effectsEngine
 		void Clean();
 
 	private:
-		std::vector<IModule*>		mModules; ///< Contains the modules of the engine.
+		ModulesManager				mModulesManager; //!< Manager for the modules of the engine.
 	};
 
 }
