@@ -55,6 +55,8 @@ namespace effectsEngine
 
 		void SetVec4f(const std::string& aName, const glm::vec4& aValue);
 
+		void SetMat4f(const std::string& aName, const glm::mat4& aValue);
+
 	private:
 		unsigned int			mId;	///< Id of the shader program.
 	};

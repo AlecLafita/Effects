@@ -9,7 +9,7 @@
 #include "ModulesManager.h"
 #include "CameraModule.h"
 #include "Camera.h"
-#include <iostream>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace effectsEngine
 {
@@ -59,10 +59,6 @@ namespace effectsEngine
 
 	bool RenderModule::Update(float aDeltaTime)
 	{
-		CameraModule& cameraModule = ModulesManager::GetModule<CameraModule>(eModule::Camera);
-		const glm::vec3& position = cameraModule.GetCamera().GetPosition();
-		std::cout << "Camera position " << position.x << " " << position.y << " " << position.z << std::endl;
-
 		RenderOptions::GetInstance().Clear();
 
 		mTexture->Use();
@@ -70,6 +66,13 @@ namespace effectsEngine
 		mShaderProgram->Activate(true);
 		float greenValue = sin(glfwGetTime()) * 0.5f + 0.5f;
 		mShaderProgram->SetVec4f("uniformColor", glm::vec4(0.0f, greenValue, 0.0f, 1.0f));
+		Camera& camera = ModulesManager::GetModule<CameraModule>(eModule::Camera).GetCamera();
+
+		glm::mat4 modelMatrix = glm::mat4(1.0f);
+		modelMatrix = glm::rotate(modelMatrix, static_cast<float>(glfwGetTime()) * glm::radians(10.0f), glm::vec3(0.f, 0.f, 1.0f));
+		mShaderProgram->SetMat4f("uModelMatrix", modelMatrix);
+		mShaderProgram->SetMat4f("uViewMatrix", camera.GetViewMatrix());
+		mShaderProgram->SetMat4f("uProjectionMatrix", camera.GetProjectionMatrix());
 
 		mMesh->Update(aDeltaTime);
 

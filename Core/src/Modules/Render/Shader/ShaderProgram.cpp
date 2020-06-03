@@ -3,6 +3,7 @@
 #include "ShaderCommon.h"
 #include <vector>
 #include <iostream>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace effectsEngine
 {
@@ -66,6 +67,12 @@ namespace effectsEngine
 	void ShaderProgram::SetVec4f(const std::string& aName, const glm::vec4& aValue)
 	{
 		glUniform4f(glGetUniformLocation(mId, aName.c_str()), aValue.x, aValue.y, aValue.z, aValue.w);
+	}
+
+	void ShaderProgram::SetMat4f(const std::string& aName, const glm::mat4& aValue)
+	{
+		glUniformMatrix4fv(glGetUniformLocation(mId, aName.c_str()), 1, GL_FALSE, glm::value_ptr(aValue));
+
 	}
 
 }
