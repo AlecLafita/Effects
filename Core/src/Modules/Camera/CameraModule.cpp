@@ -1,8 +1,11 @@
 #include "CameraModule.h"
+#include "PerspectiveCamera.h"
+#include "OrthogonalCamera.h"
 
 namespace effectsEngine
 {
-	CameraModule::CameraModule()
+	CameraModule::CameraModule() :
+		mCamera(nullptr)
 	{
 	}
 
@@ -12,6 +15,9 @@ namespace effectsEngine
 
 	bool CameraModule::Init()
 	{
+		mCamera = std::make_unique<PerspectiveCamera>();
+		mCamera->SetSize(800, 600); //TODO get from windows module
+		mCamera->SetPosition({ 0.f, 0.f, 6.f });
 		return true;
 	}
 
@@ -24,4 +30,10 @@ namespace effectsEngine
 	{
 
 	}
+	Camera& CameraModule::GetCamera()
+	{
+		return *mCamera.get();
+	}
+
+	//TODO key, mouse callbacks to move the camera
 }

@@ -6,6 +6,8 @@
 
 namespace effectsEngine
 {
+	class Camera;
+
 	/**
 	 * Module for the camera control.
 	 */
@@ -40,8 +42,14 @@ namespace effectsEngine
 		 */
 		virtual void Clean() override;
 
-	private:
+		/**
+		 * Returns the current camera.
+		 * \return Reference to the current camera.
+		 */
+		Camera& GetCamera();
 
+	private:
+		std::unique_ptr<Camera>			mCamera;		///< Current camera instance.
 	};
 }
 
