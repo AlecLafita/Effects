@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 project(Effects)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 ############ Third party
@@ -21,7 +21,10 @@ include_directories("${CMAKE_SOURCE_DIR}/Core/ThirdParty/glm")
 include_directories("${CMAKE_SOURCE_DIR}/Core/ThirdParty/stb_image")
 link_directories("${CMAKE_SOURCE_DIR}/Core/ThirdParty/stb_image")
 
-set(LIBS glfw opengl32 glad glm)
+set(ASSIMP_BUILD_ASSIMP_TOOLS OFF)
+add_subdirectory("${CMAKE_SOURCE_DIR}/Core/ThirdParty/assimp")
+
+set(LIBS glfw opengl32 glad glm assimp)
 
 ############ Project src
 file(GLOB_RECURSE SOURCE_FILES 
