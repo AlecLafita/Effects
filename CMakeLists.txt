@@ -16,7 +16,6 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/Core/ThirdParty/glfw")
 add_subdirectory("${CMAKE_SOURCE_DIR}/Core/ThirdParty/glad")
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/Core/ThirdParty/glm")
-include_directories("${CMAKE_SOURCE_DIR}/Core/ThirdParty/glm")
 
 include_directories("${CMAKE_SOURCE_DIR}/Core/ThirdParty/stb_image")
 link_directories("${CMAKE_SOURCE_DIR}/Core/ThirdParty/stb_image")

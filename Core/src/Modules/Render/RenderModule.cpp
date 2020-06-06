@@ -27,6 +27,8 @@ namespace effectsEngine
 	RenderModule::~RenderModule()
 	{
 		delete mShaderProgram;
+		delete mMesh;
+		delete mTexture;
 	}
 
 	bool RenderModule::Init()
@@ -44,13 +46,21 @@ namespace effectsEngine
 		mShaderProgram->AttachShader(FS);
 		ReturnValue &= mShaderProgram->Link();
 
-		mMesh = new Mesh();
-		mMesh->Init();
 
+		Mesh::tVerticesContainer vertices = {
+			Mesh::sVertex{glm::vec3(0.5f,  0.5f, 0.0f),glm::vec3(), glm::vec2(1.0f, 1.0f)},
+			Mesh::sVertex{glm::vec3(0.5f, -0.5f, 0.0f),glm::vec3(), glm::vec2(1.0f, 0.0f)},
+			Mesh::sVertex{glm::vec3(-0.5f, -0.5f, 0.0f),glm::vec3(), glm::vec2(0.0f, 0.0f)},
+			Mesh::sVertex{glm::vec3(-0.5f,  0.5f, 0.0f),glm::vec3(), glm::vec2(0.0f, 1.0f)},
+		};
+		Mesh::tIndicesContainer indices = {
+			0, 1, 3,
+			1, 2, 3
+		};
 		mTexture = new Texture(effectsEngine::utils::CORE_RESOURCES_PATH + TexturePath);
-		mShaderProgram->Activate(true);
-		mShaderProgram->SetInt("uniformTexture1", 0U);
-		mShaderProgram->Activate(false);
+		Mesh::tTexturesContainer textures ={ Mesh::sTexture{*mTexture, Mesh::eTextureType::Diffuse} };
+		mMesh = new Mesh(std::move(vertices), std::move(indices), std::move(textures));
+		mMesh->Init();
 
 		RenderOptions::GetInstance().ActivateDepthBuffer(false);
 
@@ -61,20 +71,19 @@ namespace effectsEngine
 	{
 		RenderOptions::GetInstance().Clear();
 
-		mTexture->Use();
-
 		mShaderProgram->Activate(true);
+
+		mMesh->Draw(*mShaderProgram);
+
 		float greenValue = sin(glfwGetTime()) * 0.5f + 0.5f;
 		mShaderProgram->SetVec4f("uniformColor", glm::vec4(0.0f, greenValue, 0.0f, 1.0f));
-		Camera& camera = ModulesManager::GetModule<CameraModule>(eModule::Camera).GetCamera();
 
 		glm::mat4 modelMatrix = glm::mat4(1.0f);
 		modelMatrix = glm::rotate(modelMatrix, static_cast<float>(glfwGetTime()) * glm::radians(10.0f), glm::vec3(0.f, 0.f, 1.0f));
 		mShaderProgram->SetMat4f("uModelMatrix", modelMatrix);
+		Camera& camera = ModulesManager::GetModule<CameraModule>(eModule::Camera).GetCamera();
 		mShaderProgram->SetMat4f("uViewMatrix", camera.GetViewMatrix());
 		mShaderProgram->SetMat4f("uProjectionMatrix", camera.GetProjectionMatrix());
-
-		mMesh->Update(aDeltaTime);
 
 		mShaderProgram->Activate(false);
 

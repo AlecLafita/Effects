@@ -2,6 +2,7 @@
 #include "Image.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include "ShaderProgram.h"
 
 namespace effectsEngine
 {
@@ -23,9 +24,10 @@ namespace effectsEngine
 	Texture::~Texture()
 	{
 	}
-	void Texture::Use() const
+	void Texture::Use(ShaderProgram& aShaderProgram, const std::string& aUniformName, uint8_t aTextureUnit) const
 	{
-		glActiveTexture(GL_TEXTURE0);
+		aShaderProgram.SetInt(aUniformName, aTextureUnit);
+		glActiveTexture(GL_TEXTURE0 + aTextureUnit);
 		glBindTexture(GL_TEXTURE_2D, mId);
 	}
 }
