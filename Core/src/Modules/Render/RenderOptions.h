@@ -11,13 +11,13 @@ namespace effectsEngine
 	public:
 
 		/**
-		 * Obtains the singleon instance.
+		 * Obtains the singleton instance.
 		 * \return Singleton instance of the class.
 		 */
 		static RenderOptions& GetInstance();
 		
 		/**
-		 * Delete copy constructors.
+		 * Delete copy constructors to achieve singleton pattern.
 		 */
 		RenderOptions(RenderOptions const&) = delete;
 		void operator=(RenderOptions const&) = delete;
@@ -40,7 +40,10 @@ namespace effectsEngine
 		void Clear();
 
 	private:
-		RenderOptions();				//!< Private constructor to have it as a singleton.
+		/**
+		 * Private constructor to achieve singleton pattern.
+		 */
+		RenderOptions();
 
 		bool mDepthBufferEnabled;		///< Flag to check if the depth buffer is enabled.
 		bool mStencilBufferEnabled;		///< Flag to check if the depth buffer is enabled.

@@ -37,6 +37,7 @@ configure_file(${CMAKE_SOURCE_DIR}/Core/src/Utils/Dirs.h.in ${CMAKE_SOURCE_DIR}/
 
 include_directories(
 	"${CMAKE_SOURCE_DIR}/Core/src"
+	"${CMAKE_SOURCE_DIR}/Core/src/Engine"
 	"${CMAKE_SOURCE_DIR}/Core/src/Modules"
 	"${CMAKE_SOURCE_DIR}/Core/src/Modules/Camera"
 	"${CMAKE_SOURCE_DIR}/Core/src/Modules/Render"

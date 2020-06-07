@@ -1,10 +1,11 @@
 #include "Image.h"
-#include "ImageImplementationSTBImage.h"
+#include "IImageImplementation.h"
+#include "InterfacesFactory.h"
 
 namespace effectsEngine
 {
 	Image::Image() :
-		mImageImplementation(std::make_unique<ImageImplementationSTBImage>())
+		mImageImplementation(InterfacesFactory::GetInstance().CreateImageImplementation())
 	{
 	}
 	
