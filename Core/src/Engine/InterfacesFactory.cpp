@@ -15,9 +15,9 @@ namespace effectsEngine
 		return mInstance;
 	}
 
-	std::unique_ptr<IModelLoader> InterfacesFactory::CreateModelLoader()
+	std::unique_ptr<IModelLoader> InterfacesFactory::CreateModelLoader(const std::string& aPath)
 	{
-		return std::make_unique<ModelLoaderAssimp>();
+		return std::make_unique<ModelLoaderAssimp>(aPath);
 	}
 
 	std::unique_ptr<IImageImplementation> InterfacesFactory::CreateImageImplementation()

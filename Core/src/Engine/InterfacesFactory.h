@@ -2,6 +2,7 @@
 #define EFFECTS_ENGINE_INTERFACES_FACTORY
 
 #include <memory>
+#include <string>
 
 namespace effectsEngine
 {
@@ -31,9 +32,10 @@ namespace effectsEngine
 
 		/**
 		 * Creates an instance for the model loader implementation.
+		 * \param aPath Path where the model is.
 		 * \return IModelLoader specialization instance.
 		 */
-		static std::unique_ptr<IModelLoader> CreateModelLoader();
+		static std::unique_ptr<IModelLoader> CreateModelLoader(const std::string& aPath);
 	
 		/**
 		 * Creates an instance for the image implementation.

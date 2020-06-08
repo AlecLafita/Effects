@@ -19,6 +19,8 @@ namespace effectsEngine
 
 		~Model();
 
+		void Init();
+
 		void Draw(ShaderProgram& aShaderProgram);
 
 	private:

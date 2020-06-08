@@ -10,17 +10,20 @@
 #include "CameraModule.h"
 #include "Camera.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include "Model.h"
 
 namespace effectsEngine
 {
 	const std::string VSPath = "default.vert";
 	const std::string FSPath = "default.frag";
 	const std::string TexturePath = "container.jpg";
+	const std::string ModelPath = "model.obj";
 
 	RenderModule::RenderModule() : 
 		mShaderProgram(nullptr),
 		mMesh(nullptr),
-		mTexture(nullptr)
+		mTexture(nullptr),
+		mModel(nullptr)
 	{
 	}
 
@@ -29,6 +32,7 @@ namespace effectsEngine
 		delete mShaderProgram;
 		delete mMesh;
 		delete mTexture;
+		delete mModel;
 	}
 
 	bool RenderModule::Init()
@@ -46,7 +50,6 @@ namespace effectsEngine
 		mShaderProgram->AttachShader(FS);
 		ReturnValue &= mShaderProgram->Link();
 
-
 		Mesh::tVerticesContainer vertices = {
 			Mesh::sVertex{glm::vec3(0.5f,  0.5f, 0.0f),glm::vec3(), glm::vec2(1.0f, 1.0f)},
 			Mesh::sVertex{glm::vec3(0.5f, -0.5f, 0.0f),glm::vec3(), glm::vec2(1.0f, 0.0f)},
@@ -58,9 +61,12 @@ namespace effectsEngine
 			1, 2, 3
 		};
 		mTexture = new Texture(effectsEngine::utils::CORE_RESOURCES_PATH + TexturePath);
-		Mesh::tTexturesContainer textures ={ Mesh::sTexture{*mTexture, Mesh::eTextureType::Diffuse} };
+		Mesh::tTexturesContainer textures ={ Mesh::sTexture{mTexture, Mesh::eTextureType::Diffuse} };
 		mMesh = new Mesh(std::move(vertices), std::move(indices), std::move(textures));
 		mMesh->Init();
+
+		mModel = new Model(effectsEngine::utils::CORE_RESOURCES_PATH + ModelPath);
+		mModel->Init();
 
 		RenderOptions::GetInstance().ActivateDepthBuffer(false);
 
@@ -73,17 +79,21 @@ namespace effectsEngine
 
 		mShaderProgram->Activate(true);
 
-		mMesh->Draw(*mShaderProgram);
-
-		float greenValue = sin(glfwGetTime()) * 0.5f + 0.5f;
-		mShaderProgram->SetVec4f("uniformColor", glm::vec4(0.0f, greenValue, 0.0f, 1.0f));
-
-		glm::mat4 modelMatrix = glm::mat4(1.0f);
-		modelMatrix = glm::rotate(modelMatrix, static_cast<float>(glfwGetTime()) * glm::radians(10.0f), glm::vec3(0.f, 0.f, 1.0f));
-		mShaderProgram->SetMat4f("uModelMatrix", modelMatrix);
 		Camera& camera = ModulesManager::GetModule<CameraModule>(eModule::Camera).GetCamera();
 		mShaderProgram->SetMat4f("uViewMatrix", camera.GetViewMatrix());
 		mShaderProgram->SetMat4f("uProjectionMatrix", camera.GetProjectionMatrix());
+
+		glm::mat4 modelMatrix = glm::mat4(1.0f);
+		modelMatrix = glm::rotate(modelMatrix, static_cast<float>(glfwGetTime())* glm::radians(10.0f), glm::vec3(0.f, 0.f, 1.0f));
+		mShaderProgram->SetMat4f("uModelMatrix", modelMatrix);
+		mMesh->Draw(*mShaderProgram);
+
+		modelMatrix = glm::mat4(1.0f);
+		modelMatrix = glm::translate(modelMatrix, glm::vec3(0.0f, 2.0f, 0.0f));
+		modelMatrix = glm::scale(modelMatrix, glm::vec3(0.1f, 0.1f, 0.1f));
+		modelMatrix = glm::rotate(modelMatrix, static_cast<float>(glfwGetTime())* glm::radians(180.0f), glm::vec3(0.f, 1.f, 0.0f));
+		mShaderProgram->SetMat4f("uModelMatrix", modelMatrix);
+		mModel->Draw(*mShaderProgram); //TODO store model matrix at the model
 
 		mShaderProgram->Activate(false);
 

@@ -57,7 +57,7 @@ namespace effectsEngine
 	{
 		for (size_t textureIndex = 0U; textureIndex < mTextures.size(); ++textureIndex) //TODO remove hardcoding
 		{
-			mTextures.at(textureIndex).Texture.Use(aShaderProgram, "uniformTexture1", 0U);
+			mTextures.at(textureIndex).Texture->Use(aShaderProgram, "uniformTexture1", 0U);
 		}
 
 		glBindVertexArray(mVAO);

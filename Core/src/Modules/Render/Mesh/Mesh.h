@@ -26,7 +26,7 @@ namespace effectsEngine
 		};
 
 		/**
-		 * Enumeration for the different texture types.
+		 * Enumeration for the different texture types. TODO this should not be here
 		 */
 		enum class eTextureType
 		{
@@ -39,7 +39,7 @@ namespace effectsEngine
 		 */
 		struct sTexture
 		{
-			Texture&		Texture;
+			Texture*		Texture;
 			eTextureType	TextureType;
 		};
 
