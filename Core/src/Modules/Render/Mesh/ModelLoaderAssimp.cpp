@@ -3,6 +3,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include <iostream>
+#include "Texture.h"
 
 namespace effectsEngine
 {
@@ -44,9 +45,6 @@ namespace effectsEngine
 	Mesh ModelLoaderAssimp::TransformMesh(const aiScene& aScene, aiMesh& aMesh)
 	{
 		Mesh::tVerticesContainer vertices(aMesh.mNumVertices);
-		Mesh::tIndicesContainer indices(3U * aMesh.mNumFaces);//3 due to aiProcess_Triangulate while loading
-		Mesh::tTexturesContainer textures = {};
-
 		for (unsigned int currentVertexIndex = 0U; currentVertexIndex < aMesh.mNumVertices; ++currentVertexIndex)
 		{
 			const aiVector3D& vertexPosition = aMesh.mVertices[currentVertexIndex];
@@ -65,6 +63,7 @@ namespace effectsEngine
 			vertices.at(currentVertexIndex) = vertex;
 		}
 
+		Mesh::tIndicesContainer indices(3U * aMesh.mNumFaces);//3 due to aiProcess_Triangulate while loading
 		for (unsigned int currentFaceIndex = 0U; currentFaceIndex < aMesh.mNumFaces; ++currentFaceIndex)
 		{
 			const aiFace& face = aMesh.mFaces[currentFaceIndex];
@@ -74,13 +73,27 @@ namespace effectsEngine
 			}
 		}
 		
-		//TODO textures
+		Mesh::tTexturesContainer textures;
+		if (aMesh.mMaterialIndex >= 0U)
+		{
+			const aiMaterial& material = *aScene.mMaterials[aMesh.mMaterialIndex];
+			LoadMaterialTextures(material, aiTextureType_DIFFUSE, textureCommon::eTextureType::Diffuse, textures);
+			LoadMaterialTextures(material, aiTextureType_SPECULAR, textureCommon::eTextureType::Specular, textures);
+			LoadMaterialTextures(material, aiTextureType_NORMALS, textureCommon::eTextureType::Normal, textures);
+		}
 		
 		return Mesh(std::move(vertices), std::move(indices), std::move(textures));
 	}
 
-	/*std::vector<Texture> ModelLoaderAssimp::LoadMaterialTextures(const aiMaterial& mat, aiTextureType type, Mesh::eTextureType aTextureType)
+	void ModelLoaderAssimp::LoadMaterialTextures(const aiMaterial& aMat, aiTextureType aAssimpType, textureCommon::eTextureType aTextureType, Mesh::tTexturesContainer& aTextures) const
 	{
-
-	}*/
+		for (unsigned int currentTextureIndex = 0; currentTextureIndex < aMat.GetTextureCount(aAssimpType); ++currentTextureIndex)
+		{
+			aiString path;
+			aMat.GetTexture(aAssimpType, currentTextureIndex, &path);
+			//TODO textures manager to avoid texture copies
+			auto texture = std::make_shared<Texture>(path.C_Str(), aTextureType);
+			aTextures.push_back(texture);
+		}
+	}
 }

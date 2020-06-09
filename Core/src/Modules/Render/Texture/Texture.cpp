@@ -6,7 +6,7 @@
 
 namespace effectsEngine
 {
-	Texture::Texture(std::string&& aPath, eTextureType aTextureType) :
+	Texture::Texture(std::string&& aPath, textureCommon::eTextureType aTextureType) :
 		mTextureType(aTextureType)
 	{
 		glGenTextures(1, &mId);
@@ -34,7 +34,7 @@ namespace effectsEngine
 		glBindTexture(GL_TEXTURE_2D, mId);
 	}
 
-	eTextureType Texture::GetTextureType() const
+	textureCommon::eTextureType Texture::GetTextureType() const
 	{
 		return mTextureType;
 	}

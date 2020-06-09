@@ -58,7 +58,7 @@ namespace effectsEngine
 			0, 1, 3,
 			1, 2, 3
 		};
-		auto texture = std::make_shared<Texture>(effectsEngine::utils::CORE_RESOURCES_PATH + TexturePath, eTextureType::Diffuse);
+		auto texture = std::make_shared<Texture>(effectsEngine::utils::CORE_RESOURCES_PATH + TexturePath, textureCommon::eTextureType::Diffuse);
 		Mesh::tTexturesContainer textures = { texture };
 		mMesh = new Mesh(std::move(vertices), std::move(indices), std::move(textures));
 		mMesh->Init();

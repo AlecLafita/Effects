@@ -2,6 +2,7 @@
 #define EFFECTS_ENGINE_MESH
 
 #include <vector>
+#include <string>
 #include <memory>
 #include <glm/glm.hpp>
 
@@ -26,9 +27,16 @@ namespace effectsEngine
 			glm::vec2 TexCoords;
 		};
 
+		struct sTexture
+		{
+			std::shared_ptr<Texture> Texture;
+			std::string UniformName;
+		};
+
 		typedef std::vector<sVertex>					tVerticesContainer;		///< Type defined for a container of vertices.
 		typedef std::vector<unsigned int>				tIndicesContainer;		///< Type defined for a container of vertices indices.
-		typedef std::vector<std::shared_ptr<Texture>>	tTexturesContainer;		///< Type defined for a container of textures.
+		typedef std::vector<std::shared_ptr<Texture>>	tTexturesContainer;		///< Type defined for a container of sTextures.
+		typedef std::vector<sTexture>					tsTexturesContainer;	///< Type defined for a container of sTextures.
 
 		/**
 		 * Constructor.
@@ -58,7 +66,7 @@ namespace effectsEngine
 
 		tVerticesContainer		mVertices;		///< Vertices of the mesh.
 		tIndicesContainer		mIndices;		///< Indices for the triangles vertices of the mesh.
-		tTexturesContainer		mTextures;		///< Texture of the mesh.
+		tsTexturesContainer		mTextures;		///< Texture of the mesh.
 
 	};
 }

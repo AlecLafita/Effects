@@ -20,7 +20,7 @@ namespace effectsEngine
 		 * \param aPath Path where the texture file is located.
 		 * \param aTextureType Type of the texture.
 		 */
-		Texture(std::string&& aPath, eTextureType aTextureType);
+		Texture(std::string&& aPath, textureCommon::eTextureType aTextureType);
 
 		/**
 		 * Destructor.
@@ -40,11 +40,11 @@ namespace effectsEngine
 		 * Gets the type of the texture.
 		 * \return Enumeration with the texture type.
 		 */
-		eTextureType GetTextureType() const;
+		textureCommon::eTextureType GetTextureType() const;
 
 	private:
-		unsigned int		mId;			///< Id of the texture.
-		const eTextureType	mTextureType;	///< Type of the texture.
+		unsigned int						mId;			///< Id of the texture.
+		const textureCommon::eTextureType	mTextureType;	///< Type of the texture.
 	};
 }
 

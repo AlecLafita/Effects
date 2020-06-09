@@ -1,6 +1,7 @@
 #include "Mesh.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <map>
 #include "Texture.h"
 
 namespace effectsEngine
@@ -11,8 +12,24 @@ namespace effectsEngine
 		mEBO(0U),
 		mVertices(aVertices),
 		mIndices(aIndices),
-		mTextures(aTextures)
+		mTextures()
 	{
+		mTextures.reserve(aTextures.size());
+		std::map<textureCommon::eTextureType, uint8_t> textureTypesCounter;
+		for (auto CurrentTexture : aTextures)
+		{
+			textureCommon::eTextureType&& textureType = CurrentTexture->GetTextureType();
+			auto textureTypesCounterIterator = textureTypesCounter.find(textureType);
+			if (textureTypesCounterIterator == textureTypesCounter.end())
+			{
+				textureTypesCounterIterator = textureTypesCounter.emplace(CurrentTexture->GetTextureType(), 0U).first;
+			}
+			else
+			{
+				textureTypesCounterIterator->second++;
+			}
+			mTextures.push_back({CurrentTexture, textureCommon::GetUniformNameFromType(textureType) + std::to_string(textureTypesCounterIterator->second) });
+		}
 	}
 
 	Mesh::~Mesh()
@@ -55,9 +72,9 @@ namespace effectsEngine
 
 	void Mesh::Draw(ShaderProgram& aShaderProgram)
 	{
-		for (std::shared_ptr<Texture> currentTexture : mTextures)
+		for (sTexture currentTexture : mTextures)
 		{
-			currentTexture->Use(aShaderProgram, "uniformTexture1", 0U); //TODO remove hardcoding
+			currentTexture.Texture->Use(aShaderProgram, currentTexture.UniformName, 0U);
 		}
 
 		glBindVertexArray(mVAO);

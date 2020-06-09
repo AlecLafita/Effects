@@ -4,6 +4,8 @@
 #include "IModelLoader.h"
 #include <string>
 #include <vector>
+#include "TextureCommon.h"
+#include <assimp/material.h>
 
 struct aiNode;
 struct aiScene;
@@ -28,7 +30,7 @@ namespace effectsEngine
 
 		Mesh TransformMesh(const aiScene& aScene, aiMesh& aMesh);
 
-		//std::vector<Texture> LoadMaterialTextures(const aiMaterial& mat, aiTextureType type, Mesh::TextureType aTextureType)
+		void LoadMaterialTextures(const aiMaterial& aMat, aiTextureType aAssimpType, textureCommon::eTextureType aTextureType, Mesh::tTexturesContainer& aTextures) const;
 	};
 }
 
