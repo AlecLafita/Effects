@@ -6,7 +6,8 @@
 
 namespace effectsEngine
 {
-	Texture::Texture(std::string&& aPath)
+	Texture::Texture(std::string&& aPath, eTextureType aTextureType) :
+		mTextureType(aTextureType)
 	{
 		glGenTextures(1, &mId);
 		glBindTexture(GL_TEXTURE_2D, mId);
@@ -21,13 +22,20 @@ namespace effectsEngine
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image.GetWidth(), image.GetHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, image.GetData());//TODO parametrizable, 2d, 3d textures, etc
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
+
 	Texture::~Texture()
 	{
 	}
+
 	void Texture::Use(ShaderProgram& aShaderProgram, const std::string& aUniformName, uint8_t aTextureUnit) const
 	{
 		aShaderProgram.SetInt(aUniformName, aTextureUnit);
 		glActiveTexture(GL_TEXTURE0 + aTextureUnit);
 		glBindTexture(GL_TEXTURE_2D, mId);
+	}
+
+	eTextureType Texture::GetTextureType() const
+	{
+		return mTextureType;
 	}
 }

@@ -3,6 +3,7 @@
 
 #include "IModelLoader.h"
 #include <string>
+#include <vector>
 
 struct aiNode;
 struct aiScene;
@@ -26,6 +27,8 @@ namespace effectsEngine
 		void ProcessNode(const aiScene& aScene, aiNode& aNode);
 
 		Mesh TransformMesh(const aiScene& aScene, aiMesh& aMesh);
+
+		//std::vector<Texture> LoadMaterialTextures(const aiMaterial& mat, aiTextureType type, Mesh::TextureType aTextureType)
 	};
 }
 

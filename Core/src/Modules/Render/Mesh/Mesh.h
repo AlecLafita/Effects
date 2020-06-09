@@ -2,6 +2,7 @@
 #define EFFECTS_ENGINE_MESH
 
 #include <vector>
+#include <memory>
 #include <glm/glm.hpp>
 
 namespace effectsEngine
@@ -25,27 +26,9 @@ namespace effectsEngine
 			glm::vec2 TexCoords;
 		};
 
-		/**
-		 * Enumeration for the different texture types. TODO this should not be here
-		 */
-		enum class eTextureType
-		{
-			Specular,
-			Diffuse
-		};
-
-		/**
-		 * Struct defined for the texture properties.
-		 */
-		struct sTexture
-		{
-			Texture*		Texture;
-			eTextureType	TextureType;
-		};
-
-		typedef std::vector<sVertex>		tVerticesContainer;	///< Type defined for a container of vertices.
-		typedef std::vector<unsigned int>	tIndicesContainer;	///< Type defined for a container of vertices indices.
-		typedef std::vector<sTexture>		tTexturesContainer;	///< Type defined for a container of textures.
+		typedef std::vector<sVertex>					tVerticesContainer;		///< Type defined for a container of vertices.
+		typedef std::vector<unsigned int>				tIndicesContainer;		///< Type defined for a container of vertices indices.
+		typedef std::vector<std::shared_ptr<Texture>>	tTexturesContainer;		///< Type defined for a container of textures.
 
 		/**
 		 * Constructor.

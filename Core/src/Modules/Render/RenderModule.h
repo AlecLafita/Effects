@@ -7,7 +7,6 @@ namespace effectsEngine
 {
 	class ShaderProgram;
 	class Mesh;
-	class Texture;
 	class Model;
 
 	/**
@@ -47,7 +46,6 @@ namespace effectsEngine
 	private:
 		ShaderProgram* mShaderProgram;
 		Mesh* mMesh;
-		Texture* mTexture;
 		Model* mModel;
 
 	};

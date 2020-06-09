@@ -55,9 +55,9 @@ namespace effectsEngine
 
 	void Mesh::Draw(ShaderProgram& aShaderProgram)
 	{
-		for (size_t textureIndex = 0U; textureIndex < mTextures.size(); ++textureIndex) //TODO remove hardcoding
+		for (std::shared_ptr<Texture> currentTexture : mTextures)
 		{
-			mTextures.at(textureIndex).Texture->Use(aShaderProgram, "uniformTexture1", 0U);
+			currentTexture->Use(aShaderProgram, "uniformTexture1", 0U); //TODO remove hardcoding
 		}
 
 		glBindVertexArray(mVAO);

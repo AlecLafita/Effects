@@ -22,7 +22,6 @@ namespace effectsEngine
 	RenderModule::RenderModule() : 
 		mShaderProgram(nullptr),
 		mMesh(nullptr),
-		mTexture(nullptr),
 		mModel(nullptr)
 	{
 	}
@@ -31,7 +30,6 @@ namespace effectsEngine
 	{
 		delete mShaderProgram;
 		delete mMesh;
-		delete mTexture;
 		delete mModel;
 	}
 
@@ -60,8 +58,8 @@ namespace effectsEngine
 			0, 1, 3,
 			1, 2, 3
 		};
-		mTexture = new Texture(effectsEngine::utils::CORE_RESOURCES_PATH + TexturePath);
-		Mesh::tTexturesContainer textures ={ Mesh::sTexture{mTexture, Mesh::eTextureType::Diffuse} };
+		auto texture = std::make_shared<Texture>(effectsEngine::utils::CORE_RESOURCES_PATH + TexturePath, eTextureType::Diffuse);
+		Mesh::tTexturesContainer textures = { texture };
 		mMesh = new Mesh(std::move(vertices), std::move(indices), std::move(textures));
 		mMesh->Init();
 
@@ -90,8 +88,8 @@ namespace effectsEngine
 
 		modelMatrix = glm::mat4(1.0f);
 		modelMatrix = glm::translate(modelMatrix, glm::vec3(0.0f, 2.0f, 0.0f));
-		modelMatrix = glm::scale(modelMatrix, glm::vec3(0.1f, 0.1f, 0.1f));
 		modelMatrix = glm::rotate(modelMatrix, static_cast<float>(glfwGetTime())* glm::radians(180.0f), glm::vec3(0.f, 1.f, 0.0f));
+		modelMatrix = glm::scale(modelMatrix, glm::vec3(0.1f, 0.1f, 0.1f));
 		mShaderProgram->SetMat4f("uModelMatrix", modelMatrix);
 		mModel->Draw(*mShaderProgram); //TODO store model matrix at the model
 

@@ -14,7 +14,7 @@ namespace effectsEngine
 			aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices);
 		if (pScene == nullptr || pScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || pScene->mRootNode == nullptr)
 		{
-			std::cout << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
+			std::cout << "Error loading model" << importer.GetErrorString() << std::endl;
 		}
 		else
 		{
@@ -44,7 +44,7 @@ namespace effectsEngine
 	Mesh ModelLoaderAssimp::TransformMesh(const aiScene& aScene, aiMesh& aMesh)
 	{
 		Mesh::tVerticesContainer vertices(aMesh.mNumVertices);
-		Mesh::tIndicesContainer indices;
+		Mesh::tIndicesContainer indices(3U * aMesh.mNumFaces);//3 due to aiProcess_Triangulate while loading
 		Mesh::tTexturesContainer textures = {};
 
 		for (unsigned int currentVertexIndex = 0U; currentVertexIndex < aMesh.mNumVertices; ++currentVertexIndex)
@@ -70,12 +70,17 @@ namespace effectsEngine
 			const aiFace& face = aMesh.mFaces[currentFaceIndex];
 			for (unsigned int currentIndexFaceIndex = 0U; currentIndexFaceIndex < face.mNumIndices; ++currentIndexFaceIndex)
 			{
-				indices.push_back(face.mIndices[currentIndexFaceIndex]);
+				indices.at(3U * currentFaceIndex + currentIndexFaceIndex) = face.mIndices[currentIndexFaceIndex];
 			}
 		}
 		
 		//TODO textures
-
+		
 		return Mesh(std::move(vertices), std::move(indices), std::move(textures));
 	}
+
+	/*std::vector<Texture> ModelLoaderAssimp::LoadMaterialTextures(const aiMaterial& mat, aiTextureType type, Mesh::eTextureType aTextureType)
+	{
+
+	}*/
 }
