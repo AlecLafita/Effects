@@ -3,10 +3,11 @@
 
 #include <string>
 #include <vector>
-#include "Mesh.h"
 
 namespace effectsEngine
 {
+	class Mesh;
+
 	/**
 	 * Interface to load a model from file. All subclases should be a singleton type.
 	 */
@@ -24,11 +25,11 @@ namespace effectsEngine
 		virtual ~IModelLoader() {}
 
 		/**
-		 * Loads a model from a file.
+		 * Loads a model from a file. Textures are also loaded.
 		 * \param aPath Path where the model is located.
-		 * \return Container of model's meshes. Textures are also loaded.
+		 * \param aMesh Container of model's meshes where the result meshes will be stored.
 		 */
-		virtual const std::vector<Mesh> ReadModel(const std::string& aPath) = 0;
+		virtual void ReadModel(const std::string& aPath, std::vector<Mesh>& aMesh) = 0;
 	};
 };
 

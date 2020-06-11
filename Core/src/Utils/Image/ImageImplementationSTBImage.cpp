@@ -24,7 +24,7 @@ namespace effectsEngine
 		mData = stbi_load(aPath.c_str(), &mWidth, &mHeight, &mChannelsNumber, 0);
 		if (mData == nullptr)
 		{
-			std::cout << "Image could not be loaded" << std::endl;
+			std::cout << "Image " << aPath << "could not be loaded" << std::endl;
 			//TODO throw exception
 		}
 	}

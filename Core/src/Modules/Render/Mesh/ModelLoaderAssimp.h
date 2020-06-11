@@ -5,6 +5,7 @@
 #include "Singleton.h"
 #include "TextureCommon.h"
 #include <assimp/material.h>
+#include "Mesh.h"
 
 struct aiNode;
 struct aiScene;
@@ -21,7 +22,7 @@ namespace effectsEngine
 
 	public:
 
-		virtual const std::vector<Mesh> ReadModel(const std::string& aPath) override;
+		virtual void ReadModel(const std::string& aPath, std::vector<Mesh>& aMesh) override;
 
 		virtual ~ModelLoaderAssimp() = default;
 	private:
@@ -29,7 +30,7 @@ namespace effectsEngine
 
 		void ProcessNode(const aiScene& aScene, aiNode& aNode, std::vector<Mesh>& aMeshResult);
 
-		Mesh TransformMesh(const aiScene& aScene, aiMesh& aMesh);
+		void AddMesh(const aiScene& aScene, aiMesh& aMesh, std::vector<Mesh>& aMeshResult);
 
 		void LoadMaterialTextures(const aiMaterial& aMat, aiTextureType aAssimpType, textureCommon::eTextureType aTextureType, Mesh::tTexturesContainer& aTextures) const;
 

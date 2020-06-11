@@ -48,10 +48,10 @@ namespace effectsEngine
 		glBindVertexArray(mVAO);
 
 		glBindBuffer(GL_ARRAY_BUFFER, mVBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(mVertices) * mVertices.size(), &mVertices.at(0), GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(sVertex) * mVertices.size(), &mVertices.at(0), GL_STATIC_DRAW);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mEBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(mIndices) * mIndices.size(), &mIndices.at(0), GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * mIndices.size(), &mIndices.at(0), GL_STATIC_DRAW);
 
 		//Position
 		glEnableVertexAttribArray(0U);

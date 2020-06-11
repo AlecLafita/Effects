@@ -47,6 +47,8 @@ namespace effectsEngine
 		};
 		glfwSetFramebufferSizeCallback(currentWindow, ResizeCallback);
 
+		std::cout << "Using graphic card " << glGetString(GL_RENDERER) << std::endl;
+
 		return true;
 	}
 

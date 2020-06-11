@@ -7,10 +7,9 @@
 
 namespace effectsEngine
 {
-	const std::vector<Mesh> ModelLoaderAssimp::ReadModel(const std::string& aPath)
+	void ModelLoaderAssimp::ReadModel(const std::string& aPath, std::vector<Mesh>& aMesh)
 	{
-		mPath = aPath;
-		std::vector<Mesh> result;
+		mPath = aPath.substr(0, aPath.find_last_of('/'));
 
 		Assimp::Importer importer;
 		const aiScene* pScene = importer.ReadFile(aPath.c_str(),
@@ -21,12 +20,11 @@ namespace effectsEngine
 		}
 		else
 		{
-			result.reserve(pScene->mNumMeshes);
-			ProcessNode(*pScene, *(pScene->mRootNode), result);
+			aMesh.reserve(pScene->mNumMeshes);
+			ProcessNode(*pScene, *(pScene->mRootNode), aMesh);
 		}
 
 		mPath = "";
-		return result;
 	}
 
 	void ModelLoaderAssimp::ProcessNode(const aiScene& aScene, aiNode& aNode, std::vector<Mesh>& aMeshResult)
@@ -34,7 +32,7 @@ namespace effectsEngine
 		for (unsigned int currentMeshIndex = 0U; currentMeshIndex < aNode.mNumMeshes; currentMeshIndex++)
 		{
 			aiMesh* currentMesh = aScene.mMeshes[aNode.mMeshes[currentMeshIndex]];		
-			aMeshResult.push_back(TransformMesh(aScene, *currentMesh));
+			AddMesh(aScene, *currentMesh, aMeshResult);
 		}
 
 		for (unsigned int currentChildIndex = 0U; currentChildIndex < aNode.mNumChildren; ++currentChildIndex)
@@ -43,7 +41,7 @@ namespace effectsEngine
 		}
 	}
 
-	Mesh ModelLoaderAssimp::TransformMesh(const aiScene& aScene, aiMesh& aMesh)
+	void ModelLoaderAssimp::AddMesh(const aiScene& aScene, aiMesh& aMesh, std::vector<Mesh>& aMeshResult)
 	{
 		Mesh::tVerticesContainer vertices(aMesh.mNumVertices);
 		for (unsigned int currentVertexIndex = 0U; currentVertexIndex < aMesh.mNumVertices; ++currentVertexIndex)
@@ -83,7 +81,7 @@ namespace effectsEngine
 			LoadMaterialTextures(material, aiTextureType_NORMALS, textureCommon::eTextureType::Normal, textures);
 		}
 		
-		return Mesh(std::move(vertices), std::move(indices), std::move(textures));
+		aMeshResult.emplace_back(std::move(vertices), std::move(indices), std::move(textures));
 	}
 
 	void ModelLoaderAssimp::LoadMaterialTextures(const aiMaterial& aMat, aiTextureType aAssimpType, textureCommon::eTextureType aTextureType, Mesh::tTexturesContainer& aTextures) const
@@ -94,7 +92,7 @@ namespace effectsEngine
 			if (aMat.GetTexture(aAssimpType, currentTextureIndex, &path) == aiReturn_SUCCESS)
 			{
 				//TODO textures manager to avoid texture copies
-				auto texture = std::make_shared<Texture>(mPath + path.C_Str(), aTextureType);
+				auto texture = std::make_shared<Texture>(mPath + '/' + path.C_Str(), aTextureType);
 				aTextures.push_back(texture);
 			}
 		}

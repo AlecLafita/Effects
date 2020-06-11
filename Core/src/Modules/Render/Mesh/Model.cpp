@@ -7,7 +7,7 @@ namespace effectsEngine
 {
 	Model::Model(const std::string& aPath)
 	{
-		mMeshes = InterfacesFactory::GetModelLoader().ReadModel(aPath);
+		InterfacesFactory::GetModelLoader().ReadModel(aPath, mMeshes);
 	}
 
 	Model::~Model()
@@ -17,6 +17,7 @@ namespace effectsEngine
 
 	void Model::Init()
 	{
+		int count = 0;
 		for (Mesh& currentMesh : mMeshes)
 		{
 			currentMesh.Init();
