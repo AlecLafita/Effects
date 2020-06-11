@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <string>
+#include "Singleton.h"
 
 namespace effectsEngine
 {
@@ -12,30 +13,16 @@ namespace effectsEngine
 	/**
 	 * Singleton factory to agrupate the creation of the various interfaces specializations across the engine.
 	 */
-	class InterfacesFactory
+	class InterfacesFactory : public Singleton<InterfacesFactory>
 	{
+		friend class Singleton<InterfacesFactory>;
 	public:
-		/**
-		 * Obtains the singleton instance.
-		 * \return Singleton instance of the class.
-		 */
-		static InterfacesFactory& GetInstance();
 
 		/**
-		 * Delete copy constructors to achieve singleton pattern.
-		 */
-		InterfacesFactory(InterfacesFactory const&) = delete;
-		void operator=(InterfacesFactory const&) = delete;
-
-
-		/***** Factory methods*****/
-
-		/**
-		 * Creates an instance for the model loader implementation.
-		 * \param aPath Path where the model is.
+		 * Gets an instance for the model loader implementation.
 		 * \return IModelLoader specialization instance.
 		 */
-		static std::unique_ptr<IModelLoader> CreateModelLoader(const std::string& aPath);
+		static IModelLoader& GetModelLoader(); //TODO this should be in some service locator, not in a factory!
 	
 		/**
 		 * Creates an instance for the image implementation.

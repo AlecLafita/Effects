@@ -2,8 +2,7 @@
 #define EFFECTS_ENGINE_MODEL_LOADER_ASSIMP
 
 #include "IModelLoader.h"
-#include <string>
-#include <vector>
+#include "Singleton.h"
 #include "TextureCommon.h"
 #include <assimp/material.h>
 
@@ -13,24 +12,28 @@ struct aiMesh;
 
 namespace effectsEngine
 {
-	//TODO maybe this class should be static, and each time a model asks for load, reset all the members, so we don't have to be tied with one loader instance for each model
-
 	/**
-	 * Implementation for a model loader ussing assimp library.
+	 * Implementation for a singleton model loader ussing assimp library.
 	 */
-	class ModelLoaderAssimp : public IModelLoader
+	class ModelLoaderAssimp : public IModelLoader, public Singleton<ModelLoaderAssimp>
 	{
+		friend class Singleton <ModelLoaderAssimp>;
+
 	public:
-		ModelLoaderAssimp(const std::string& aPath);
 
-		virtual ~ModelLoaderAssimp();
+		virtual const std::vector<Mesh> ReadModel(const std::string& aPath) override;
+
+		virtual ~ModelLoaderAssimp() = default;
 	private:
+		ModelLoaderAssimp() = default;
 
-		void ProcessNode(const aiScene& aScene, aiNode& aNode);
+		void ProcessNode(const aiScene& aScene, aiNode& aNode, std::vector<Mesh>& aMeshResult);
 
 		Mesh TransformMesh(const aiScene& aScene, aiMesh& aMesh);
 
 		void LoadMaterialTextures(const aiMaterial& aMat, aiTextureType aAssimpType, textureCommon::eTextureType aTextureType, Mesh::tTexturesContainer& aTextures) const;
+
+		std::string mPath;
 	};
 }
 

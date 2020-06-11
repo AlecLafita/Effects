@@ -7,9 +7,11 @@
 
 namespace effectsEngine
 {
-	ModelLoaderAssimp::ModelLoaderAssimp(const std::string& aPath) : 
-		IModelLoader()
+	const std::vector<Mesh> ModelLoaderAssimp::ReadModel(const std::string& aPath)
 	{
+		mPath = aPath;
+		std::vector<Mesh> result;
+
 		Assimp::Importer importer;
 		const aiScene* pScene = importer.ReadFile(aPath.c_str(),
 			aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices);
@@ -19,26 +21,25 @@ namespace effectsEngine
 		}
 		else
 		{
-			mMeshes.reserve(pScene->mNumMeshes);
-			ProcessNode(*pScene, *(pScene->mRootNode));
+			result.reserve(pScene->mNumMeshes);
+			ProcessNode(*pScene, *(pScene->mRootNode), result);
 		}
+
+		mPath = "";
+		return result;
 	}
 
-	ModelLoaderAssimp::~ModelLoaderAssimp()
-	{
-	}
-
-	void ModelLoaderAssimp::ProcessNode(const aiScene& aScene, aiNode& aNode)
+	void ModelLoaderAssimp::ProcessNode(const aiScene& aScene, aiNode& aNode, std::vector<Mesh>& aMeshResult)
 	{
 		for (unsigned int currentMeshIndex = 0U; currentMeshIndex < aNode.mNumMeshes; currentMeshIndex++)
 		{
 			aiMesh* currentMesh = aScene.mMeshes[aNode.mMeshes[currentMeshIndex]];		
-			mMeshes.push_back(TransformMesh(aScene, *currentMesh));
+			aMeshResult.push_back(TransformMesh(aScene, *currentMesh));
 		}
 
 		for (unsigned int currentChildIndex = 0U; currentChildIndex < aNode.mNumChildren; ++currentChildIndex)
 		{
-			ProcessNode(aScene, *aNode.mChildren[currentChildIndex]);
+			ProcessNode(aScene, *aNode.mChildren[currentChildIndex], aMeshResult);
 		}
 	}
 
@@ -90,10 +91,12 @@ namespace effectsEngine
 		for (unsigned int currentTextureIndex = 0; currentTextureIndex < aMat.GetTextureCount(aAssimpType); ++currentTextureIndex)
 		{
 			aiString path;
-			aMat.GetTexture(aAssimpType, currentTextureIndex, &path);
-			//TODO textures manager to avoid texture copies
-			auto texture = std::make_shared<Texture>(path.C_Str(), aTextureType);
-			aTextures.push_back(texture);
+			if (aMat.GetTexture(aAssimpType, currentTextureIndex, &path) == aiReturn_SUCCESS)
+			{
+				//TODO textures manager to avoid texture copies
+				auto texture = std::make_shared<Texture>(mPath + path.C_Str(), aTextureType);
+				aTextures.push_back(texture);
+			}
 		}
 	}
 }

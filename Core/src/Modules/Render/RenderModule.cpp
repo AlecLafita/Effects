@@ -66,7 +66,7 @@ namespace effectsEngine
 		mModel = new Model(effectsEngine::utils::CORE_RESOURCES_PATH + ModelPath);
 		mModel->Init();
 
-		RenderOptions::GetInstance().ActivateDepthBuffer(false);
+		RenderOptions::GetInstance().ActivateDepthBuffer(true);
 
 		return ReturnValue;
 	}

@@ -7,17 +7,10 @@ namespace effectsEngine
 	InterfacesFactory::InterfacesFactory()
 	{
 	}
-	
-	InterfacesFactory& InterfacesFactory::GetInstance()
-	{
-		static InterfacesFactory mInstance;
 
-		return mInstance;
-	}
-
-	std::unique_ptr<IModelLoader> InterfacesFactory::CreateModelLoader(const std::string& aPath)
+	IModelLoader& InterfacesFactory::GetModelLoader()
 	{
-		return std::make_unique<ModelLoaderAssimp>(aPath);
+		return ModelLoaderAssimp::GetInstance();
 	}
 
 	std::unique_ptr<IImageImplementation> InterfacesFactory::CreateImageImplementation()

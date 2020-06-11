@@ -7,8 +7,7 @@ namespace effectsEngine
 {
 	Model::Model(const std::string& aPath)
 	{
-		std::unique_ptr<IModelLoader> modelLoader = InterfacesFactory::CreateModelLoader(aPath);
-		mMeshes = modelLoader->GetMeshes();//TODO avoid this copy,, should return the meshes directly
+		mMeshes = InterfacesFactory::GetModelLoader().ReadModel(aPath);
 	}
 
 	Model::~Model()
