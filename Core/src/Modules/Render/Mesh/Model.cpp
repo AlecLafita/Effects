@@ -10,14 +10,8 @@ namespace effectsEngine
 		InterfacesFactory::GetModelLoader().ReadModel(aPath, mMeshes);
 	}
 
-	Model::~Model()
-	{
-
-	}
-
 	void Model::Init()
 	{
-		int count = 0;
 		for (Mesh& currentMesh : mMeshes)
 		{
 			currentMesh.Init();

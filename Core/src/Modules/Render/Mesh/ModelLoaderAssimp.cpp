@@ -86,14 +86,14 @@ namespace effectsEngine
 
 	void ModelLoaderAssimp::LoadMaterialTextures(const aiMaterial& aMat, aiTextureType aAssimpType, textureCommon::eTextureType aTextureType, Mesh::tTexturesContainer& aTextures) const
 	{
-		for (unsigned int currentTextureIndex = 0; currentTextureIndex < aMat.GetTextureCount(aAssimpType); ++currentTextureIndex)
+		size_t totalTextures = aMat.GetTextureCount(aAssimpType);
+		for (unsigned int currentTextureIndex = 0; currentTextureIndex < totalTextures; ++currentTextureIndex)
 		{
 			aiString path;
 			if (aMat.GetTexture(aAssimpType, currentTextureIndex, &path) == aiReturn_SUCCESS)
 			{
 				//TODO textures manager to avoid texture copies
-				auto texture = std::make_shared<Texture>(mPath + '/' + path.C_Str(), aTextureType);
-				aTextures.push_back(texture);
+				aTextures.emplace_back(std::make_shared<Texture>(mPath + '/' + path.C_Str(), aTextureType));
 			}
 		}
 	}

@@ -15,16 +15,31 @@ namespace effectsEngine
 	class Model
 	{
 	public:
+		/**
+		 * Constructor.
+		 * \param aPath Path where the model file is located.
+		 */
 		Model(const std::string& aPath);
 
-		~Model();
+		/**
+		 * Destructor.
+		 * 
+		 */
+		~Model() = default;
 
+		/**
+		 * Initializes the model.
+		 */
 		void Init();
 
+		/**
+		 * Draws the model.
+		 * \param aShaderProgram Shader to use to draw to model
+		 */
 		void Draw(ShaderProgram& aShaderProgram);
 
 	private:
-		std::vector<Mesh>			mMeshes;
+		std::vector<Mesh>			mMeshes;		///< Meshes the model is composed of.
 	};
 }
 
