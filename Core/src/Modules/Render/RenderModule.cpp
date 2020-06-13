@@ -48,18 +48,18 @@ namespace effectsEngine
 		mShaderProgram->AttachShader(FS);
 		ReturnValue &= mShaderProgram->Link();
 
-		Mesh::tVerticesContainer vertices = {
-			Mesh::sVertex{glm::vec3(0.5f,  0.5f, 0.0f),glm::vec3(), glm::vec2(1.0f, 1.0f)},
-			Mesh::sVertex{glm::vec3(0.5f, -0.5f, 0.0f),glm::vec3(), glm::vec2(1.0f, 0.0f)},
-			Mesh::sVertex{glm::vec3(-0.5f, -0.5f, 0.0f),glm::vec3(), glm::vec2(0.0f, 0.0f)},
-			Mesh::sVertex{glm::vec3(-0.5f,  0.5f, 0.0f),glm::vec3(), glm::vec2(0.0f, 1.0f)},
+		meshCommon::tVerticesContainer vertices = {
+			meshCommon::sVertex{glm::vec3(0.5f,  0.5f, 0.0f),glm::vec3(), glm::vec2(1.0f, 1.0f)},
+			meshCommon::sVertex{glm::vec3(0.5f, -0.5f, 0.0f),glm::vec3(), glm::vec2(1.0f, 0.0f)},
+			meshCommon::sVertex{glm::vec3(-0.5f, -0.5f, 0.0f),glm::vec3(), glm::vec2(0.0f, 0.0f)},
+			meshCommon::sVertex{glm::vec3(-0.5f,  0.5f, 0.0f),glm::vec3(), glm::vec2(0.0f, 1.0f)},
 		};
-		Mesh::tIndicesContainer indices = {
+		meshCommon::tIndicesContainer indices = {
 			0, 1, 3,
 			1, 2, 3
 		};
 		auto texture = std::make_shared<Texture>(effectsEngine::utils::CORE_RESOURCES_PATH + TexturePath);
-		Mesh::tTexturesContainer textures = { {texture, textureCommon::eTextureType::Diffuse} };
+		meshCommon::tTexturesTypesContainer textures = { {texture, textureCommon::eTextureType::Diffuse} };
 		mMesh = new Mesh(std::move(vertices), std::move(indices), std::move(textures));
 		mMesh->Init();
 

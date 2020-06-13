@@ -3,6 +3,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include <iostream>
+#include "Mesh.h"
 #include "Texture.h"
 #include "TexturesManager.h"
 
@@ -45,7 +46,7 @@ namespace effectsEngine
 
 	void ModelLoaderAssimp::AddMesh(const aiScene& aScene, aiMesh& aMesh, std::vector<Mesh>& aMeshResult)
 	{
-		Mesh::tVerticesContainer vertices(aMesh.mNumVertices);
+		meshCommon::tVerticesContainer vertices(aMesh.mNumVertices);
 		for (unsigned int currentVertexIndex = 0U; currentVertexIndex < aMesh.mNumVertices; ++currentVertexIndex)
 		{
 			const aiVector3D& vertexPosition = aMesh.mVertices[currentVertexIndex];
@@ -56,7 +57,7 @@ namespace effectsEngine
 				vertexUV.x = aMesh.mTextureCoords[0U][currentVertexIndex].x;
 				vertexUV.y = aMesh.mTextureCoords[0U][currentVertexIndex].y;
 			}
-			Mesh::sVertex vertex {
+			meshCommon::sVertex vertex {
 				glm::vec3(vertexPosition.x, vertexPosition.y, vertexPosition.z),
 				glm::vec3(vertexNormal.x, vertexNormal.y, vertexNormal.z),
 				vertexUV
@@ -64,7 +65,7 @@ namespace effectsEngine
 			vertices.at(currentVertexIndex) = vertex;
 		}
 
-		Mesh::tIndicesContainer indices(3U * aMesh.mNumFaces);//3 due to aiProcess_Triangulate while loading
+		meshCommon::tIndicesContainer indices(3U * aMesh.mNumFaces);//3 due to aiProcess_Triangulate while loading
 		for (unsigned int currentFaceIndex = 0U; currentFaceIndex < aMesh.mNumFaces; ++currentFaceIndex)
 		{
 			const aiFace& face = aMesh.mFaces[currentFaceIndex];
@@ -74,7 +75,7 @@ namespace effectsEngine
 			}
 		}
 		
-		Mesh::tTexturesContainer textures;
+		meshCommon::tTexturesTypesContainer textures;
 		if (aMesh.mMaterialIndex >= 0U)
 		{
 			const aiMaterial& material = *aScene.mMaterials[aMesh.mMaterialIndex];
@@ -86,7 +87,7 @@ namespace effectsEngine
 		aMeshResult.emplace_back(std::move(vertices), std::move(indices), std::move(textures));
 	}
 
-	void ModelLoaderAssimp::LoadMaterialTextures(const aiMaterial& aMat, aiTextureType aAssimpType, textureCommon::eTextureType aTextureType, Mesh::tTexturesContainer& aTextures) const
+	void ModelLoaderAssimp::LoadMaterialTextures(const aiMaterial& aMat, aiTextureType aAssimpType, textureCommon::eTextureType aTextureType, meshCommon::tTexturesTypesContainer& aTextures) const
 	{
 		size_t totalTextures = aMat.GetTextureCount(aAssimpType);
 		for (unsigned int currentTextureIndex = 0; currentTextureIndex < totalTextures; ++currentTextureIndex)

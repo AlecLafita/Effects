@@ -2,9 +2,9 @@
 #define EFFECTS_ENGINE_MODEL_LOADER_ASSIMP
 
 #include "IModelLoader.h"
-#include "TextureCommon.h"
 #include <assimp/material.h>
-#include "Mesh.h"
+#include "TextureCommon.h"
+#include "MeshCommon.h"
 
 struct aiNode;
 struct aiScene;
@@ -60,7 +60,7 @@ namespace effectsEngine
 		 * \param aTextureType effectsEngine texture type.
 		 * \param aTextures Container where the result textures will be stored.
 		 */
-		void LoadMaterialTextures(const aiMaterial& aMat, aiTextureType aAssimpType, textureCommon::eTextureType aTextureType, Mesh::tTexturesContainer& aTextures) const;
+		void LoadMaterialTextures(const aiMaterial& aMat, aiTextureType aAssimpType, textureCommon::eTextureType aTextureType, meshCommon::tTexturesTypesContainer& aTextures) const;
 
 		std::string mPath;			///< Path of the current model being loaded.
 	};

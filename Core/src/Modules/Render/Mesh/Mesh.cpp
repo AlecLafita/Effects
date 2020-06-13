@@ -6,7 +6,7 @@
 
 namespace effectsEngine
 {
-	Mesh::Mesh(tVerticesContainer&& aVertices, tIndicesContainer&& aIndices, tTexturesContainer&& aTextures) :
+	Mesh::Mesh(meshCommon::tVerticesContainer&& aVertices, meshCommon::tIndicesContainer&& aIndices, meshCommon::tTexturesTypesContainer&& aTextures) :
 		mVAO(0U),
 		mVBO(0U),
 		mEBO(0U),
@@ -18,16 +18,16 @@ namespace effectsEngine
 		std::map<textureCommon::eTextureType, uint8_t> textureTypesCounter;
 		for (auto CurrentTexture : aTextures)
 		{
-			auto textureTypesCounterIterator = textureTypesCounter.find(CurrentTexture.second);
+			auto textureTypesCounterIterator = textureTypesCounter.find(CurrentTexture.Type);
 			if (textureTypesCounterIterator == textureTypesCounter.end())
 			{
-				textureTypesCounterIterator = textureTypesCounter.emplace(CurrentTexture.second, 0U).first;
+				textureTypesCounterIterator = textureTypesCounter.emplace(CurrentTexture.Type, 0U).first;
 			}
 			else
 			{
 				textureTypesCounterIterator->second++;
 			}
-			mTextures.push_back({CurrentTexture.first, textureCommon::GetUniformNameFromType(CurrentTexture.second) + std::to_string(textureTypesCounterIterator->second) });
+			mTextures.push_back({CurrentTexture.Texture, textureCommon::GetUniformNameFromType(CurrentTexture.Type) + std::to_string(textureTypesCounterIterator->second) });
 		}
 	}
 
@@ -47,22 +47,22 @@ namespace effectsEngine
 		glBindVertexArray(mVAO);
 
 		glBindBuffer(GL_ARRAY_BUFFER, mVBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(sVertex) * mVertices.size(), &mVertices.at(0), GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(meshCommon::sVertex) * mVertices.size(), &mVertices.at(0), GL_STATIC_DRAW);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mEBO);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * mIndices.size(), &mIndices.at(0), GL_STATIC_DRAW);
 
 		//Position
 		glEnableVertexAttribArray(0U);
-		glVertexAttribPointer(0U, 3U, GL_FLOAT, GL_FALSE, sizeof(sVertex), (void*)0U);
+		glVertexAttribPointer(0U, 3U, GL_FLOAT, GL_FALSE, sizeof(meshCommon::sVertex), (void*)0U);
 
 		//Normal
 		glEnableVertexAttribArray(1U);
-		glVertexAttribPointer(1U, 3U, GL_FLOAT, GL_FALSE, sizeof(sVertex), (void*)(offsetof(sVertex, Normal)));
+		glVertexAttribPointer(1U, 3U, GL_FLOAT, GL_FALSE, sizeof(meshCommon::sVertex), (void*)(offsetof(meshCommon::sVertex, Normal)));
 		
 		//TexCoords
 		glEnableVertexAttribArray(2U);
-		glVertexAttribPointer(2U, 2U, GL_FLOAT, GL_FALSE, sizeof(sVertex), (void*)(offsetof(sVertex, TexCoords)));
+		glVertexAttribPointer(2U, 2U, GL_FLOAT, GL_FALSE, sizeof(meshCommon::sVertex), (void*)(offsetof(meshCommon::sVertex, TexCoords)));
 
 		glBindVertexArray(0U);
 		glBindBuffer(GL_ARRAY_BUFFER, 0U);
