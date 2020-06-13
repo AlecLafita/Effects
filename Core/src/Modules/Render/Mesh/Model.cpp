@@ -1,13 +1,13 @@
 #include "Model.h"
 #include "IModelLoader.h"
-#include "InterfacesFactory.h"
 #include <memory>
+#include "ServiceLocator.h"
 
 namespace effectsEngine
 {
 	Model::Model(const std::string& aPath)
 	{
-		InterfacesFactory::GetModelLoader().ReadModel(aPath, mMeshes);
+		ServiceLocator<IModelLoader>::GetService().ReadModel(aPath, mMeshes);
 	}
 
 	void Model::Init()

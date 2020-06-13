@@ -2,7 +2,6 @@
 #define EFFECTS_ENGINE_MODEL_LOADER_ASSIMP
 
 #include "IModelLoader.h"
-#include "Singleton.h"
 #include "TextureCommon.h"
 #include <assimp/material.h>
 #include "Mesh.h"
@@ -14,13 +13,20 @@ struct aiMesh;
 namespace effectsEngine
 {
 	/**
-	 * Implementation for a singleton model loader ussing assimp library.
+	 * Implementation for a model loader ussing assimp library.
 	 */
-	class ModelLoaderAssimp : public IModelLoader, public Singleton<ModelLoaderAssimp>
+	class ModelLoaderAssimp : public IModelLoader
 	{
-		friend class Singleton <ModelLoaderAssimp>;
-
 	public:
+		/**
+		 * Constructor.
+		 */
+		ModelLoaderAssimp() = default;
+
+		/**
+		 * Destructor.
+		 */
+		virtual ~ModelLoaderAssimp() = default;
 
 		/**
 		 * Loads a model from a file. Textures are also loaded.
@@ -29,16 +35,7 @@ namespace effectsEngine
 		 */
 		virtual void ReadModel(const std::string& aPath, std::vector<Mesh>& aMesh) override;
 
-		/**
-		 * Destructor.
-		 */
-		virtual ~ModelLoaderAssimp() = default;
-
 	private:
-		/**
-		 * Private constructor to achieve singleton pattern.
-		 */
-		ModelLoaderAssimp() = default;
 
 		/**
 		 * Processes an assimp scene node.

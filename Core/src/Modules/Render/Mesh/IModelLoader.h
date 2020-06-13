@@ -9,7 +9,7 @@ namespace effectsEngine
 	class Mesh;
 
 	/**
-	 * Interface to load a model from file. All subclases should be a singleton type.
+	 * Interface to load a model from file
 	 */
 	class IModelLoader
 	{
@@ -22,7 +22,7 @@ namespace effectsEngine
 		/**
 		 * Destructor.
 		 */
-		virtual ~IModelLoader() {}
+		virtual ~IModelLoader() = default;
 
 		/**
 		 * Loads a model from a file. Textures are also loaded.

@@ -6,8 +6,7 @@
 
 namespace effectsEngine
 {
-	Texture::Texture(std::string&& aPath, textureCommon::eTextureType aTextureType) :
-		mTextureType(aTextureType)
+	Texture::Texture(const std::string& aPath)
 	{
 		glGenTextures(1, &mId);
 		glBindTexture(GL_TEXTURE_2D, mId);
@@ -18,7 +17,7 @@ namespace effectsEngine
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		Image image;
-		image.Load(std::move(aPath));
+		image.Load(aPath);
 		GLenum format = 0U;
 		switch (image.GetChannelsNumber())
 		{
@@ -41,10 +40,5 @@ namespace effectsEngine
 		aShaderProgram.SetInt(aUniformName, aTextureUnit);
 		glActiveTexture(GL_TEXTURE0 + aTextureUnit);
 		glBindTexture(GL_TEXTURE_2D, mId);
-	}
-
-	textureCommon::eTextureType Texture::GetTextureType() const
-	{
-		return mTextureType;
 	}
 }

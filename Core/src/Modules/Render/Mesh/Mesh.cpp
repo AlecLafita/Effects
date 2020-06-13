@@ -18,17 +18,16 @@ namespace effectsEngine
 		std::map<textureCommon::eTextureType, uint8_t> textureTypesCounter;
 		for (auto CurrentTexture : aTextures)
 		{
-			textureCommon::eTextureType&& textureType = CurrentTexture->GetTextureType();
-			auto textureTypesCounterIterator = textureTypesCounter.find(textureType);
+			auto textureTypesCounterIterator = textureTypesCounter.find(CurrentTexture.second);
 			if (textureTypesCounterIterator == textureTypesCounter.end())
 			{
-				textureTypesCounterIterator = textureTypesCounter.emplace(CurrentTexture->GetTextureType(), 0U).first;
+				textureTypesCounterIterator = textureTypesCounter.emplace(CurrentTexture.second, 0U).first;
 			}
 			else
 			{
 				textureTypesCounterIterator->second++;
 			}
-			mTextures.push_back({CurrentTexture, textureCommon::GetUniformNameFromType(textureType) + std::to_string(textureTypesCounterIterator->second) });
+			mTextures.push_back({CurrentTexture.first, textureCommon::GetUniformNameFromType(CurrentTexture.second) + std::to_string(textureTypesCounterIterator->second) });
 		}
 	}
 
@@ -72,9 +71,9 @@ namespace effectsEngine
 
 	void Mesh::Draw(ShaderProgram& aShaderProgram)
 	{
-		for (sTexture currentTexture : mTextures)
+		for (size_t currentTextureIndex = 0U; currentTextureIndex < mTextures.size(); ++currentTextureIndex)
 		{
-			currentTexture.Texture->Use(aShaderProgram, currentTexture.UniformName, 0U);
+			mTextures.at(currentTextureIndex).Texture->Use(aShaderProgram, mTextures.at(currentTextureIndex).UniformName, currentTextureIndex);
 		}
 
 		glBindVertexArray(mVAO);

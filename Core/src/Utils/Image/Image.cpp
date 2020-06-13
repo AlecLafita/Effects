@@ -13,9 +13,9 @@ namespace effectsEngine
 	{
 	}
 
-	void Image::Load(std::string&& aPath)
+	void Image::Load(const std::string& aPath)
 	{
-		mImageImplementation->Load(std::move(aPath));
+		mImageImplementation->Load(aPath);
 	}
 	
 	unsigned char* Image::GetData() const

@@ -7,7 +7,6 @@
 
 namespace effectsEngine
 {
-	class IModelLoader;
 	class IImageImplementation;
 
 	/**
@@ -17,12 +16,6 @@ namespace effectsEngine
 	{
 		friend class Singleton<InterfacesFactory>;
 	public:
-
-		/**
-		 * Gets an instance for the model loader implementation.
-		 * \return IModelLoader specialization instance.
-		 */
-		static IModelLoader& GetModelLoader(); //TODO this should be in some service locator, not in a factory!
 	
 		/**
 		 * Creates an instance for the image implementation.

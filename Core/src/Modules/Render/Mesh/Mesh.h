@@ -5,6 +5,7 @@
 #include <string>
 #include <memory>
 #include <glm/glm.hpp>
+#include "TextureCommon.h"
 
 namespace effectsEngine
 {
@@ -35,7 +36,7 @@ namespace effectsEngine
 
 		typedef std::vector<sVertex>					tVerticesContainer;		///< Type defined for a container of vertices.
 		typedef std::vector<unsigned int>				tIndicesContainer;		///< Type defined for a container of vertices indices.
-		typedef std::vector<std::shared_ptr<Texture>>	tTexturesContainer;		///< Type defined for a container of sTextures.
+		typedef std::vector<std::pair<std::shared_ptr<Texture>, textureCommon::eTextureType>>	tTexturesContainer;		///< Type defined for a container of sTextures.
 		typedef std::vector<sTexture>					tsTexturesContainer;	///< Type defined for a container of sTextures.
 
 		/**

@@ -17,7 +17,7 @@ namespace effectsEngine
 	const std::string VSPath = "default.vert";
 	const std::string FSPath = "default.frag";
 	const std::string TexturePath = "container.jpg";
-	const std::string ModelPath = "model.obj";
+	const std::string ModelPath = "Models/backpack/backpack.obj";
 
 	RenderModule::RenderModule() : 
 		mShaderProgram(nullptr),
@@ -58,8 +58,8 @@ namespace effectsEngine
 			0, 1, 3,
 			1, 2, 3
 		};
-		auto texture = std::make_shared<Texture>(effectsEngine::utils::CORE_RESOURCES_PATH + TexturePath, textureCommon::eTextureType::Diffuse);
-		Mesh::tTexturesContainer textures = { texture };
+		auto texture = std::make_shared<Texture>(effectsEngine::utils::CORE_RESOURCES_PATH + TexturePath);
+		Mesh::tTexturesContainer textures = { {texture, textureCommon::eTextureType::Diffuse} };
 		mMesh = new Mesh(std::move(vertices), std::move(indices), std::move(textures));
 		mMesh->Init();
 
@@ -87,7 +87,7 @@ namespace effectsEngine
 		mMesh->Draw(*mShaderProgram);
 
 		modelMatrix = glm::mat4(1.0f);
-		modelMatrix = glm::translate(modelMatrix, glm::vec3(0.0f, 2.0f, 0.0f));
+		modelMatrix = glm::translate(modelMatrix, glm::vec3(0.0f, -2.0f, 0.0f));
 		modelMatrix = glm::rotate(modelMatrix, static_cast<float>(glfwGetTime())* glm::radians(180.0f), glm::vec3(0.f, 1.f, 0.0f));
 		modelMatrix = glm::scale(modelMatrix, glm::vec3(0.1f, 0.1f, 0.1f));
 		mShaderProgram->SetMat4f("uModelMatrix", modelMatrix);

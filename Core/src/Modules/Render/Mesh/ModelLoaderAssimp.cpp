@@ -4,6 +4,7 @@
 #include <assimp/postprocess.h>
 #include <iostream>
 #include "Texture.h"
+#include "TexturesManager.h"
 
 namespace effectsEngine
 {
@@ -20,6 +21,7 @@ namespace effectsEngine
 		}
 		else
 		{
+			std::cout << "Model file read" << importer.GetErrorString() << std::endl;
 			aMesh.reserve(pScene->mNumMeshes);
 			ProcessNode(*pScene, *(pScene->mRootNode), aMesh);
 		}
@@ -92,8 +94,7 @@ namespace effectsEngine
 			aiString path;
 			if (aMat.GetTexture(aAssimpType, currentTextureIndex, &path) == aiReturn_SUCCESS)
 			{
-				//TODO textures manager to avoid texture copies
-				aTextures.emplace_back(std::make_shared<Texture>(mPath + '/' + path.C_Str(), aTextureType));
+				aTextures.emplace_back(TexturesManager::GetInstance().GetResource(mPath + '/' + path.C_Str()), aTextureType);
 			}
 		}
 	}

@@ -2,7 +2,6 @@
 #define EFFECTS_ENGINE_TEXTURE
 
 #include <string>
-#include "TextureCommon.h"
 
 namespace effectsEngine
 {
@@ -18,9 +17,8 @@ namespace effectsEngine
 		/**
 		 * Constructor.
 		 * \param aPath Path where the texture file is located.
-		 * \param aTextureType Type of the texture.
 		 */
-		Texture(std::string&& aPath, textureCommon::eTextureType aTextureType);
+		Texture(const std::string& aPath);
 
 		/**
 		 * Destructor.
@@ -36,15 +34,8 @@ namespace effectsEngine
 		 */
 		void Use(ShaderProgram& aShaderProgram, const std::string& aUniformName, uint8_t aTextureUnit) const;
 
-		/**
-		 * Gets the type of the texture.
-		 * \return Enumeration with the texture type.
-		 */
-		textureCommon::eTextureType GetTextureType() const;
-
 	private:
 		unsigned int						mId;			///< Id of the texture.
-		const textureCommon::eTextureType	mTextureType;	///< Type of the texture.
 	};
 }
 
