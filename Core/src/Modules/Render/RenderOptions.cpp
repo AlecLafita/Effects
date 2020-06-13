@@ -10,12 +10,6 @@ namespace effectsEngine
 	{
 	}
 
-	RenderOptions& RenderOptions::GetInstance()
-	{
-		static RenderOptions	mInstance;
-		return mInstance;
-	}
-
 	void RenderOptions::ActivateDepthBuffer(bool aActivate)
 	{
 		if (aActivate)

@@ -10,23 +10,27 @@
 #include "CameraModule.h"
 #include "Camera.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include "Model.h"
 
 namespace effectsEngine
 {
 	const std::string VSPath = "default.vert";
 	const std::string FSPath = "default.frag";
 	const std::string TexturePath = "container.jpg";
+	const std::string ModelPath = "Models/backpack/backpack.obj";
 
 	RenderModule::RenderModule() : 
 		mShaderProgram(nullptr),
 		mMesh(nullptr),
-		mTexture(nullptr)
+		mModel(nullptr)
 	{
 	}
 
 	RenderModule::~RenderModule()
 	{
 		delete mShaderProgram;
+		delete mMesh;
+		delete mModel;
 	}
 
 	bool RenderModule::Init()
@@ -44,15 +48,25 @@ namespace effectsEngine
 		mShaderProgram->AttachShader(FS);
 		ReturnValue &= mShaderProgram->Link();
 
-		mMesh = new Mesh();
+		meshCommon::tVerticesContainer vertices = {
+			meshCommon::sVertex{glm::vec3(0.5f,  0.5f, 0.0f),glm::vec3(), glm::vec2(1.0f, 1.0f)},
+			meshCommon::sVertex{glm::vec3(0.5f, -0.5f, 0.0f),glm::vec3(), glm::vec2(1.0f, 0.0f)},
+			meshCommon::sVertex{glm::vec3(-0.5f, -0.5f, 0.0f),glm::vec3(), glm::vec2(0.0f, 0.0f)},
+			meshCommon::sVertex{glm::vec3(-0.5f,  0.5f, 0.0f),glm::vec3(), glm::vec2(0.0f, 1.0f)},
+		};
+		meshCommon::tIndicesContainer indices = {
+			0, 1, 3,
+			1, 2, 3
+		};
+		auto texture = std::make_shared<Texture>(effectsEngine::utils::CORE_RESOURCES_PATH + TexturePath);
+		meshCommon::tTexturesTypesContainer textures = { {texture, textureCommon::eTextureType::Diffuse} };
+		mMesh = new Mesh(std::move(vertices), std::move(indices), std::move(textures));
 		mMesh->Init();
 
-		mTexture = new Texture(effectsEngine::utils::CORE_RESOURCES_PATH + TexturePath);
-		mShaderProgram->Activate(true);
-		mShaderProgram->SetInt("uniformTexture1", 0U);
-		mShaderProgram->Activate(false);
+		mModel = new Model(effectsEngine::utils::CORE_RESOURCES_PATH + ModelPath);
+		mModel->Init();
 
-		RenderOptions::GetInstance().ActivateDepthBuffer(false);
+		RenderOptions::GetInstance().ActivateDepthBuffer(true);
 
 		return ReturnValue;
 	}
@@ -61,20 +75,23 @@ namespace effectsEngine
 	{
 		RenderOptions::GetInstance().Clear();
 
-		mTexture->Use();
-
 		mShaderProgram->Activate(true);
-		float greenValue = sin(glfwGetTime()) * 0.5f + 0.5f;
-		mShaderProgram->SetVec4f("uniformColor", glm::vec4(0.0f, greenValue, 0.0f, 1.0f));
-		Camera& camera = ModulesManager::GetModule<CameraModule>(eModule::Camera).GetCamera();
 
-		glm::mat4 modelMatrix = glm::mat4(1.0f);
-		modelMatrix = glm::rotate(modelMatrix, static_cast<float>(glfwGetTime()) * glm::radians(10.0f), glm::vec3(0.f, 0.f, 1.0f));
-		mShaderProgram->SetMat4f("uModelMatrix", modelMatrix);
+		Camera& camera = ModulesManager::GetModule<CameraModule>(eModule::Camera).GetCamera();
 		mShaderProgram->SetMat4f("uViewMatrix", camera.GetViewMatrix());
 		mShaderProgram->SetMat4f("uProjectionMatrix", camera.GetProjectionMatrix());
 
-		mMesh->Update(aDeltaTime);
+		glm::mat4 modelMatrix = glm::mat4(1.0f);
+		modelMatrix = glm::rotate(modelMatrix, static_cast<float>(glfwGetTime())* glm::radians(10.0f), glm::vec3(0.f, 0.f, 1.0f));
+		mShaderProgram->SetMat4f("uModelMatrix", modelMatrix);
+		mMesh->Draw(*mShaderProgram);
+
+		modelMatrix = glm::mat4(1.0f);
+		modelMatrix = glm::translate(modelMatrix, glm::vec3(0.0f, -2.0f, 0.0f));
+		modelMatrix = glm::rotate(modelMatrix, static_cast<float>(glfwGetTime())* glm::radians(180.0f), glm::vec3(0.f, 1.f, 0.0f));
+		modelMatrix = glm::scale(modelMatrix, glm::vec3(0.1f, 0.1f, 0.1f));
+		mShaderProgram->SetMat4f("uModelMatrix", modelMatrix);
+		mModel->Draw(*mShaderProgram); //TODO store model matrix at the model
 
 		mShaderProgram->Activate(false);
 

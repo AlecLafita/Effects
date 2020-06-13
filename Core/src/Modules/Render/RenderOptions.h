@@ -1,26 +1,17 @@
 #ifndef EFFECTS_ENGINE_RENDER_OPTIONS
 #define EFFECTS_ENGINE_RENDER_OPTIONS
 
+#include "Singleton.h"
+
 namespace effectsEngine
 {
 	/**
 	 * Singleton class which saves current render options and uses them to properly renderize.
 	 */
-	class RenderOptions
+	class RenderOptions : public Singleton<RenderOptions>
 	{
 	public:
-
-		/**
-		 * Obtains the singleon instance.
-		 * \return Singleton instance of the class.
-		 */
-		static RenderOptions& GetInstance();
-		
-		/**
-		 * Delete copy constructors.
-		 */
-		RenderOptions(RenderOptions const&) = delete;
-		void operator=(RenderOptions const&) = delete;
+		friend class Singleton<RenderOptions>;
 
 		/**
 		 * Activates the depth buffer.
@@ -40,7 +31,10 @@ namespace effectsEngine
 		void Clear();
 
 	private:
-		RenderOptions();				//!< Private constructor to have it as a singleton.
+		/**
+		 * Private constructor to achieve singleton pattern.
+		 */
+		RenderOptions();
 
 		bool mDepthBufferEnabled;		///< Flag to check if the depth buffer is enabled.
 		bool mStencilBufferEnabled;		///< Flag to check if the depth buffer is enabled.

@@ -1,5 +1,7 @@
 #include "EffectsEngine.h"
 #include "IModule.h"
+#include "ServiceLocator.h"
+#include "ModelLoaderAssimp.h"
 
 namespace effectsEngine
 {
@@ -21,6 +23,8 @@ namespace effectsEngine
 
 	bool EffectsEngine::Init()
 	{
+		ServiceLocator<IModelLoader>::ProvideService(new ModelLoaderAssimp());
+
 		for (const auto& currentModuleIterator : mModulesManager.GetModules())
 		{
 			if (!currentModuleIterator.second->Init())

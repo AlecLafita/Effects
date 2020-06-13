@@ -25,7 +25,7 @@ namespace effectsEngine
 		 * Loads an image from its path.
 		 * \param aPath Path where the image is.
 		 */
-		virtual void Load(const std::string&& aPath) override;
+		virtual void Load(const std::string& aPath) override;
 
 		/**
 		 * Gets the data of the image.

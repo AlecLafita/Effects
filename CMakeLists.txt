@@ -16,12 +16,14 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/Core/ThirdParty/glfw")
 add_subdirectory("${CMAKE_SOURCE_DIR}/Core/ThirdParty/glad")
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/Core/ThirdParty/glm")
-include_directories("${CMAKE_SOURCE_DIR}/Core/ThirdParty/glm")
 
 include_directories("${CMAKE_SOURCE_DIR}/Core/ThirdParty/stb_image")
 link_directories("${CMAKE_SOURCE_DIR}/Core/ThirdParty/stb_image")
 
-set(LIBS glfw opengl32 glad glm)
+set(ASSIMP_BUILD_ASSIMP_TOOLS OFF)
+add_subdirectory("${CMAKE_SOURCE_DIR}/Core/ThirdParty/assimp")
+
+set(LIBS glfw opengl32 glad glm assimp)
 
 ############ Project src
 file(GLOB_RECURSE SOURCE_FILES 
@@ -35,6 +37,7 @@ configure_file(${CMAKE_SOURCE_DIR}/Core/src/Utils/Dirs.h.in ${CMAKE_SOURCE_DIR}/
 
 include_directories(
 	"${CMAKE_SOURCE_DIR}/Core/src"
+	"${CMAKE_SOURCE_DIR}/Core/src/Engine"
 	"${CMAKE_SOURCE_DIR}/Core/src/Modules"
 	"${CMAKE_SOURCE_DIR}/Core/src/Modules/Camera"
 	"${CMAKE_SOURCE_DIR}/Core/src/Modules/Render"

@@ -5,6 +5,8 @@
 
 namespace effectsEngine
 {
+	class ShaderProgram;
+
 	/**
 	 * Class for handle a texture.
 	 */
@@ -16,7 +18,7 @@ namespace effectsEngine
 		 * Constructor.
 		 * \param aPath Path where the texture file is located.
 		 */
-		Texture(std::string&& aPath);
+		Texture(const std::string& aPath);
 
 		/**
 		 * Destructor.
@@ -25,12 +27,15 @@ namespace effectsEngine
 
 		/**
 		 * Uses the texture to draw. Must be called before drawing.
-		 * 
+		 * \param aShaderProgram Shader that will use the texture.
+		 * \param aUniformName Uniform name for the sampler thes shader uses.
+		 * \param aTextureUnit Texture unit to use.
+		 * \precondition Parameter shader program is being used.
 		 */
-		void Use() const;
+		void Use(ShaderProgram& aShaderProgram, const std::string& aUniformName, uint8_t aTextureUnit) const;
 
 	private:
-		unsigned int		mId;			///< Id of the texture.
+		unsigned int						mId;			///< Id of the texture.
 	};
 }
 

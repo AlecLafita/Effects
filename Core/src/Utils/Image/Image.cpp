@@ -1,10 +1,11 @@
 #include "Image.h"
-#include "ImageImplementationSTBImage.h"
+#include "IImageImplementation.h"
+#include "InterfacesFactory.h"
 
 namespace effectsEngine
 {
 	Image::Image() :
-		mImageImplementation(std::make_unique<ImageImplementationSTBImage>())
+		mImageImplementation(InterfacesFactory::GetInstance().CreateImageImplementation())
 	{
 	}
 	
@@ -12,9 +13,9 @@ namespace effectsEngine
 	{
 	}
 
-	void Image::Load(std::string&& aPath)
+	void Image::Load(const std::string& aPath)
 	{
-		mImageImplementation->Load(std::move(aPath));
+		mImageImplementation->Load(aPath);
 	}
 	
 	unsigned char* Image::GetData() const

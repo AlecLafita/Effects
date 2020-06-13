@@ -7,7 +7,7 @@ namespace effectsEngine
 {
 	class ShaderProgram;
 	class Mesh;
-	class Texture;
+	class Model;
 
 	/**
 	 * Class for the render module.
@@ -46,7 +46,7 @@ namespace effectsEngine
 	private:
 		ShaderProgram* mShaderProgram;
 		Mesh* mMesh;
-		Texture* mTexture;
+		Model* mModel;
 
 	};
 }

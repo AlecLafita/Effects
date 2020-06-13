@@ -18,13 +18,13 @@ namespace effectsEngine
 		stbi_image_free(mData);
 	}
 
-	void ImageImplementationSTBImage::Load(const std::string&& aPath)
+	void ImageImplementationSTBImage::Load(const std::string& aPath)
 	{
 		stbi_set_flip_vertically_on_load(true);
 		mData = stbi_load(aPath.c_str(), &mWidth, &mHeight, &mChannelsNumber, 0);
 		if (mData == nullptr)
 		{
-			std::cout << "Image could not be loaded" << std::endl;
+			std::cout << "Image " << aPath << "could not be loaded" << std::endl;
 			//TODO throw exception
 		}
 	}
