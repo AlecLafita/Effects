@@ -42,6 +42,7 @@ include_directories(
 	"${CMAKE_SOURCE_DIR}/Core/src/Modules/Camera"
 	"${CMAKE_SOURCE_DIR}/Core/src/Modules/Render"
 	"${CMAKE_SOURCE_DIR}/Core/src/Modules/Render/Mesh"
+	"${CMAKE_SOURCE_DIR}/Core/src/Modules/Render/Particles"
 	"${CMAKE_SOURCE_DIR}/Core/src/Modules/Render/Shader"
 	"${CMAKE_SOURCE_DIR}/Core/src/Modules/Render/Texture"
 	"${CMAKE_SOURCE_DIR}/Core/src/Modules/Window"
